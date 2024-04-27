@@ -113,7 +113,6 @@ public class TrackTimeAspect {
             } catch (ExecutionException | InterruptedException | TimeoutException e) {
                 throw new CompletionException(e);
             }
-
         }).whenComplete((res, t) -> trackTime(proceedingJoinPoint, stopWatch, t));
     }
 
