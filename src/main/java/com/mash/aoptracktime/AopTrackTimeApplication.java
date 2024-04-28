@@ -20,10 +20,27 @@ public class AopTrackTimeApplication {
     @Bean
     public CommandLineRunner commandLineRunner(EmployeesService employeesService) {
         return (args) -> {
-            employeesService.getRandomEmployees(10000);
-            employeesService.getRandomEmployeesReturningVoid(10000);
-            employeesService.getRandomEmployeesAsCompletableFuture(10000);
-            employeesService.getRandomEmployeesAsyncAsFuture(10000);
+            final int employeesNumber = 10000;
+
+            /* No Throwing Errors */
+
+            /* Sync call */
+             employeesService.getRandomEmployees(employeesNumber);
+
+            /* Async call */
+             employeesService.getRandomEmployeesAsyncReturningVoid(employeesNumber);
+             employeesService.getRandomEmployeesAsCompletableFuture(employeesNumber);
+             employeesService.getRandomEmployeesAsyncAsFuture(employeesNumber);
+
+            /* Throwing Errors */
+
+            /* Sync call */
+            // employeesService.getRandomEmployeesThrowing(employeesNumber);
+
+            /* Async call */
+            // employeesService.getRandomEmployeesAsyncReturningVoidThrowing(employeesNumber);
+            // employeesService.getRandomEmployeesAsCompletableFutureThrowing(employeesNumber);
+            // employeesService.getRandomEmployeesAsyncAsFutureThrowing(employeesNumber);
         };
     }
 }

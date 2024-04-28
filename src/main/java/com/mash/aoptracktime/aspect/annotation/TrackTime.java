@@ -9,4 +9,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TrackTime {
     String groupName() default "";
+    boolean ignoreOnException() default false;
 }

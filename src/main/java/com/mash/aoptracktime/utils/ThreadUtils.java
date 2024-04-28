@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 @UtilityClass
 public class ThreadUtils {
-    public void sleep(TimeUnit unit, long timeout) {
+    public void sleep(long timeout, TimeUnit unit) {
         try {
             unit.sleep(timeout);
         } catch (InterruptedException e) {
