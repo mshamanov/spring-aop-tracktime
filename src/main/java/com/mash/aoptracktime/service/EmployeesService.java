@@ -1,7 +1,7 @@
 package com.mash.aoptracktime.service;
 
-import com.mash.aoptracktime.aspect.annotation.TrackAsyncTime;
-import com.mash.aoptracktime.aspect.annotation.TrackTime;
+import com.mash.aoptracktime.aspect.tracktime.annotation.TrackAsyncTime;
+import com.mash.aoptracktime.aspect.tracktime.annotation.TrackTime;
 import com.mash.aoptracktime.entity.Employee;
 import com.mash.aoptracktime.utils.ThreadUtils;
 import net.datafaker.Faker;
@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,26 +39,14 @@ public class EmployeesService {
     @TrackTime(groupName = "sync")
     public List<Employee> getRandomEmployees(long limit) {
         ThreadUtils.sleep(2, TimeUnit.SECONDS);
-        return generateRandomEmployees(limit);
-    }
-
-    @TrackTime(groupName = "sync")
-    public List<Employee> getRandomEmployeesThrowing(long limit) {
-        ThreadUtils.sleep(2, TimeUnit.SECONDS);
-        if (limit > 0) {
-            throw new RuntimeException("Something went wrong");
-        }
         return this.generateRandomEmployees(limit);
     }
 
     @Async
     @TrackAsyncTime(groupName = "async")
-    public CompletableFuture<List<Employee>> getRandomEmployeesAsCompletableFuture(long limit) {
+    public CompletableFuture<List<Employee>> getRandomEmployeesAsyncAsCompletableFuture(long limit) {
         ThreadUtils.sleep(2, TimeUnit.SECONDS);
-        return CompletableFuture.supplyAsync(() -> {
-            ThreadUtils.sleep(5, TimeUnit.SECONDS);
-            return this.generateRandomEmployees(limit);
-        });
+        return CompletableFuture.completedFuture(this.generateRandomEmployees(limit));
     }
 
     @Async
@@ -69,40 +58,9 @@ public class EmployeesService {
 
     @Async
     @TrackAsyncTime(groupName = "async")
-    public void getRandomEmployeesAsyncReturningVoid(long limit) {
+    public void fillWithRandomEmployeesAsyncReturningVoid(Collection<? super Employee> collection, long limit) {
         ThreadUtils.sleep(5, TimeUnit.SECONDS);
-        this.generateRandomEmployees(limit);
-    }
-
-    @Async
-    @TrackAsyncTime(groupName = "async")
-    public CompletableFuture<List<Employee>> getRandomEmployeesAsCompletableFutureThrowing(long limit) {
-        ThreadUtils.sleep(2, TimeUnit.SECONDS);
-        return CompletableFuture.supplyAsync(() -> {
-            ThreadUtils.sleep(5, TimeUnit.SECONDS);
-            if (limit > 0) {
-                throw new RuntimeException("Something went wrong");
-            }
-            return this.generateRandomEmployees(limit);
-        });
-    }
-
-    @Async
-    @TrackAsyncTime(groupName = "async")
-    public Future<List<Employee>> getRandomEmployeesAsyncAsFutureThrowing(long limit) {
-        ThreadUtils.sleep(5, TimeUnit.SECONDS);
-        this.generateRandomEmployees(limit);
-        return AsyncResult.forExecutionException(new RuntimeException("Something went wrong"));
-    }
-
-    @Async
-    @TrackAsyncTime(groupName = "async")
-    public void getRandomEmployeesAsyncReturningVoidThrowing(long limit) {
-        ThreadUtils.sleep(5, TimeUnit.SECONDS);
-        if (limit > 0) {
-            throw new RuntimeException("Something went wrong");
-        }
-        this.generateRandomEmployees(limit);
+        collection.addAll(this.generateRandomEmployees(limit));
     }
 
     private List<Employee> generateRandomEmployees(long limit) {

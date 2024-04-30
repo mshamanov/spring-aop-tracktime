@@ -8,6 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 
+import java.util.ArrayList;
+
 @EnableAsync
 @SpringBootApplication
 @Slf4j
@@ -22,25 +24,13 @@ public class AopTrackTimeApplication {
         return (args) -> {
             final int employeesNumber = 10000;
 
-            /* No Throwing Errors */
-
             /* Sync call */
-             employeesService.getRandomEmployees(employeesNumber);
+            employeesService.getRandomEmployees(employeesNumber);
 
             /* Async call */
-             employeesService.getRandomEmployeesAsyncReturningVoid(employeesNumber);
-             employeesService.getRandomEmployeesAsCompletableFuture(employeesNumber);
-             employeesService.getRandomEmployeesAsyncAsFuture(employeesNumber);
-
-            /* Throwing Errors */
-
-            /* Sync call */
-            // employeesService.getRandomEmployeesThrowing(employeesNumber);
-
-            /* Async call */
-            // employeesService.getRandomEmployeesAsyncReturningVoidThrowing(employeesNumber);
-            // employeesService.getRandomEmployeesAsCompletableFutureThrowing(employeesNumber);
-            // employeesService.getRandomEmployeesAsyncAsFutureThrowing(employeesNumber);
+            employeesService.fillWithRandomEmployeesAsyncReturningVoid(new ArrayList<>(), employeesNumber);
+            employeesService.getRandomEmployeesAsyncAsCompletableFuture(employeesNumber);
+            employeesService.getRandomEmployeesAsyncAsFuture(employeesNumber);
         };
     }
 }

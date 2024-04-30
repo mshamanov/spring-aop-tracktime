@@ -1,4 +1,4 @@
-package com.mash.aoptracktime.aspect.annotation;
+package com.mash.aoptracktime.aspect.tracktime.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,7 +7,8 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface TrackAsyncTime {
+public @interface TrackTime {
     String groupName() default "";
+
     boolean ignoreOnException() default false;
 }
