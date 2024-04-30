@@ -35,7 +35,7 @@ public abstract class AbstractTimeTracker implements TimeTracker {
             throwable = e;
             throw e;
         } finally {
-            result = bind(result, proceedingJoinPoint, stopWatch, throwable);
+            result = this.bind(result, proceedingJoinPoint, stopWatch, throwable);
         }
 
         return result;
@@ -48,7 +48,7 @@ public abstract class AbstractTimeTracker implements TimeTracker {
             return;
         }
 
-        TrackTimeStat stats = buildStat(proceedingJoinPoint, stopWatch, annotationData, throwable);
+        TrackTimeStat stats = this.buildStat(proceedingJoinPoint, stopWatch, annotationData, throwable);
 
         log.info("Execution time of {}.{}.{} :: {} ms [{}]",
                 stats.getPackageName(),

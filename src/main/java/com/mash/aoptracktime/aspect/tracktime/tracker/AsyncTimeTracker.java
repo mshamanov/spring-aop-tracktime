@@ -22,7 +22,7 @@ public class AsyncTimeTracker extends AbstractTimeTracker {
         boolean bindToFuture = annotationData.getAnnotation().bindToFuture();
 
         if (bindToFuture) {
-            return bindToFuture(result, proceedingJoinPoint, stopWatch, annotationData);
+            return this.bindToFuture(result, proceedingJoinPoint, stopWatch, annotationData);
         }
 
         stopWatch.stop();
