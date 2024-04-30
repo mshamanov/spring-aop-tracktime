@@ -32,4 +32,9 @@ public class TrackTimeAnnotationData implements TrackAnnotationData {
     public boolean ignoreOnException() {
         return this.trackTime.ignoreOnException();
     }
+
+    @Override
+    public TrackTime getAnnotation() {
+        return this.trackTime;
+    }
 }

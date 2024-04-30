@@ -46,7 +46,10 @@ public class EmployeesService {
     @TrackAsyncTime(groupName = "async")
     public CompletableFuture<List<Employee>> getRandomEmployeesAsyncAsCompletableFuture(long limit) {
         ThreadUtils.sleep(2, TimeUnit.SECONDS);
-        return CompletableFuture.completedFuture(this.generateRandomEmployees(limit));
+        return CompletableFuture.supplyAsync(() -> {
+            ThreadUtils.sleep(5, TimeUnit.SECONDS);
+            return this.generateRandomEmployees(limit);
+        });
     }
 
     @Async

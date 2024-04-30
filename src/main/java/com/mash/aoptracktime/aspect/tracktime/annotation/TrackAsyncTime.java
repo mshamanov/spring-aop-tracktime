@@ -11,4 +11,6 @@ public @interface TrackAsyncTime {
     String groupName() default "";
 
     boolean ignoreOnException() default false;
+
+    boolean bindToFuture() default false;
 }

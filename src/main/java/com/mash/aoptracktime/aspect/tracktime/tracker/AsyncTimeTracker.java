@@ -17,9 +17,20 @@ public class AsyncTimeTracker extends AbstractTimeTracker {
 
     @Override
     protected Object bind(Object result, ProceedingJoinPoint proceedingJoinPoint, StopWatch stopWatch, Throwable t) {
-        stopWatch.stop();
         TrackAsyncTimeAnnotationData annotationData = new TrackAsyncTimeAnnotationData(proceedingJoinPoint);
 
+        boolean bindToFuture = annotationData.getAnnotation().bindToFuture();
+
+        if (bindToFuture) {
+            return bindToFuture(result, proceedingJoinPoint, stopWatch, annotationData);
+        }
+
+        stopWatch.stop();
+        CompletableFuture.runAsync(() -> this.recordStat(proceedingJoinPoint, stopWatch, annotationData, t));
+        return result;
+    }
+
+    private CompletableFuture<?> bindToFuture(Object result, ProceedingJoinPoint proceedingJoinPoint, StopWatch stopWatch, TrackAsyncTimeAnnotationData annotationData) {
         CompletableFuture<?> future = null;
 
         if (result instanceof CompletableFuture<?>) {
@@ -34,11 +45,14 @@ public class AsyncTimeTracker extends AbstractTimeTracker {
             });
         }
 
-        if (future != null) {
-            return future.whenComplete((res, err) -> this.recordStat(proceedingJoinPoint, stopWatch, annotationData, t));
-        } else {
-            this.recordStat(proceedingJoinPoint, stopWatch, annotationData, t);
-            return result;
+        if (future == null) {
+            throw new IllegalStateException(
+                    "@TrackAsyncTime to be bound to future result must return either CompletableFuture or Future");
         }
+
+        return future.whenComplete((res, err) -> {
+            stopWatch.stop();
+            this.recordStat(proceedingJoinPoint, stopWatch, annotationData, err);
+        });
     }
 }

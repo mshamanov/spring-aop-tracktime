@@ -32,4 +32,9 @@ public class TrackAsyncTimeAnnotationData implements TrackAnnotationData {
     public boolean ignoreOnException() {
         return this.trackAsyncTime.ignoreOnException();
     }
+
+    @Override
+    public TrackAsyncTime getAnnotation() {
+        return this.trackAsyncTime;
+    }
 }
