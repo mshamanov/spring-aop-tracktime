@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class TrackTimeStat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column(name = "group_name")
     private String groupName;
@@ -46,5 +46,6 @@ public class TrackTimeStat {
     private TrackTimeMethodStatus status;
 
     @CreationTimestamp
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 }
