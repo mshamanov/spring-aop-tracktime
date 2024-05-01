@@ -30,7 +30,8 @@ public class AsyncTimeTracker extends AbstractTimeTracker {
         return result;
     }
 
-    private CompletableFuture<?> bindToFuture(Object result, ProceedingJoinPoint proceedingJoinPoint, StopWatch stopWatch, TrackAsyncTimeAnnotationData annotationData) {
+    private CompletableFuture<?> bindToFuture(Object result, ProceedingJoinPoint proceedingJoinPoint,
+                                              StopWatch stopWatch, TrackAsyncTimeAnnotationData annotationData) {
         CompletableFuture<?> future = null;
 
         if (result instanceof CompletableFuture<?>) {

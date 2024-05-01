@@ -1,8 +1,8 @@
 package com.mash.aoptracktime.rest.controller;
 
 import com.mash.aoptracktime.entity.TrackTimeStat;
-import com.mash.aoptracktime.rest.mapper.TrackTimeEntityToDtoMapper;
-import com.mash.aoptracktime.rest.mapper.TrackTimeRequestToSpecificationMapper;
+import com.mash.aoptracktime.rest.mapper.TrackTimeStatToDtoMapper;
+import com.mash.aoptracktime.rest.mapper.TrackTimeDtoToSpecificationMapper;
 import com.mash.aoptracktime.rest.model.TrackTimeDto;
 import com.mash.aoptracktime.service.TrackTimeStatsService;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +22,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class TrackTimeRestController {
     private final TrackTimeStatsService trackTimeStatsService;
-    private final TrackTimeRequestToSpecificationMapper toSpecificationMapper;
-    private final TrackTimeEntityToDtoMapper toDtoMapper;
+    private final TrackTimeDtoToSpecificationMapper toSpecificationMapper;
+    private final TrackTimeStatToDtoMapper toDtoMapper;
 
     @GetMapping(path = "/summary", consumes = "application/json")
     public ResponseEntity<?> getTrackTimeStats(@RequestBody TrackTimeDto request) {
