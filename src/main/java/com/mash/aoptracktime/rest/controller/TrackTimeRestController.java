@@ -29,7 +29,6 @@ public class TrackTimeRestController {
     public ResponseEntity<?> getTrackTimeStats(@RequestBody(required = false) TrackTimeDto request,
                                                @RequestParam(defaultValue = "true") boolean includeData,
                                                @RequestParam(defaultValue = "false") boolean methodNamesOnly) {
-        System.out.println(request);
         List<TrackTimeStat> trackTimeStats;
 
         if (request == null) {

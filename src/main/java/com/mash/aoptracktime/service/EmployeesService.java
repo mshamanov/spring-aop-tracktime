@@ -36,14 +36,14 @@ public class EmployeesService {
         return this.employeeMap.get(id);
     }
 
-    @TrackTime(groupName = "sync")
+    @TrackTime
     public List<Employee> getRandomEmployees(long limit) {
         ThreadUtils.sleep(2, TimeUnit.SECONDS);
         return this.generateRandomEmployees(limit);
     }
 
     @Async
-    @TrackAsyncTime(groupName = "async")
+    @TrackAsyncTime
     public CompletableFuture<List<Employee>> getRandomEmployeesAsyncAsCompletableFuture(long limit) {
         ThreadUtils.sleep(2, TimeUnit.SECONDS);
         return CompletableFuture.supplyAsync(() -> {
@@ -53,14 +53,14 @@ public class EmployeesService {
     }
 
     @Async
-    @TrackAsyncTime(groupName = "async")
+    @TrackAsyncTime
     public Future<List<Employee>> getRandomEmployeesAsyncAsFuture(long limit) {
         ThreadUtils.sleep(5, TimeUnit.SECONDS);
         return new AsyncResult<>(this.generateRandomEmployees(limit));
     }
 
     @Async
-    @TrackAsyncTime(groupName = "async")
+    @TrackAsyncTime
     public void fillWithRandomEmployeesAsyncReturningVoid(Collection<? super Employee> collection, long limit) {
         ThreadUtils.sleep(5, TimeUnit.SECONDS);
         collection.addAll(this.generateRandomEmployees(limit));
