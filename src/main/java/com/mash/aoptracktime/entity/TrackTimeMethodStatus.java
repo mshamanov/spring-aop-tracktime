@@ -1,9 +1,12 @@
 package com.mash.aoptracktime.entity;
 
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum TrackTimeMethodStatus {
-    COMPLETED("completed"), EXCEPTION("exception");
+    @JsonEnumDefaultValue
+    COMPLETED("completed"),
+    EXCEPTION("exception");
 
     private final String value;
 

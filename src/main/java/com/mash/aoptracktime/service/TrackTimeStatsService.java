@@ -26,6 +26,10 @@ public class TrackTimeStatsService {
         this.save(stats);
     }
 
+    public List<TrackTimeStat> findAll() {
+        return this.trackTimeStatsRepository.findAll();
+    }
+
     public List<TrackTimeStat> findAll(Specification<TrackTimeStat> specification) {
         return this.trackTimeStatsRepository.findAll(specification);
     }

@@ -8,9 +8,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TrackAsyncTime {
-    String groupName() default "";
+    String groupName() default "async";
 
     boolean ignoreOnException() default false;
-
-    boolean bindToFuture() default false;
 }

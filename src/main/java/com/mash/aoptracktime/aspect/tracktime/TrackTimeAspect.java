@@ -24,13 +24,11 @@ public class TrackTimeAspect {
     }
 
     @Pointcut("@annotation(com.mash.aoptracktime.aspect.tracktime.annotation.TrackTime) && " +
-            "!@annotation(com.mash.aoptracktime.aspect.tracktime.annotation.TrackAsyncTime) && " +
-            "!@annotation(org.springframework.scheduling.annotation.Async)")
+            "!@annotation(com.mash.aoptracktime.aspect.tracktime.annotation.TrackAsyncTime)")
     private void trackTimeAspect() {
     }
 
-    @Pointcut("@annotation(org.springframework.scheduling.annotation.Async) && " +
-            "@annotation(com.mash.aoptracktime.aspect.tracktime.annotation.TrackAsyncTime) && " +
+    @Pointcut("@annotation(com.mash.aoptracktime.aspect.tracktime.annotation.TrackAsyncTime) && " +
             "!@annotation(com.mash.aoptracktime.aspect.tracktime.annotation.TrackTime)")
     private void asyncTrackTimeAspect() {
     }

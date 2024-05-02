@@ -2,7 +2,6 @@ package com.mash.aoptracktime.aspect.tracktime.annotation;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.scheduling.annotation.Async;
 
 import java.lang.reflect.Method;
 
@@ -14,10 +13,7 @@ public class TrackTimeAnnotationData implements TrackAnnotationData {
         Method method = methodSignature.getMethod();
 
         if (method.isAnnotationPresent(TrackTime.class)) {
-            if (method.isAnnotationPresent(Async.class)) {
-                throw new IllegalStateException(
-                        "@Async annotation is only allowed on methods annotated with @TrackAsyncTime");
-            }
+            throw new IllegalStateException("Method " + method.getName() + " does not have @TrackTime annotation");
         }
 
         this.trackTime = method.getAnnotation(TrackTime.class);

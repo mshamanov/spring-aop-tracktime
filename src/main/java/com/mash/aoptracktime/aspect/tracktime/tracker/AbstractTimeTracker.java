@@ -44,6 +44,12 @@ public abstract class AbstractTimeTracker implements TimeTracker {
     protected abstract Object bind(Object result, ProceedingJoinPoint proceedingJoinPoint, StopWatch stopWatch, Throwable t);
 
     protected void recordStat(ProceedingJoinPoint proceedingJoinPoint, StopWatch stopWatch, TrackAnnotationData annotationData, Throwable throwable) {
+        if (!stopWatch.isRunning()) {
+            throw new IllegalStateException("StopWatch is not running");
+        }
+
+        stopWatch.stop();
+
         if (throwable != null && annotationData.ignoreOnException()) {
             return;
         }

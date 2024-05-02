@@ -2,6 +2,7 @@ package com.mash.aoptracktime.rest.mapper;
 
 import com.mash.aoptracktime.entity.TrackTimeStat;
 import com.mash.aoptracktime.rest.model.TrackTimeDto;
+import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -35,31 +36,27 @@ public class TrackTimeDtoToSpecificationMapper implements Function<TrackTimeDto,
 
                 Predicate predicate = null;
 
-                if (value instanceof String str) {
-                    if (str.contains("*")) {
-                        str = str.replaceAll("\\*", "%");
-                        predicate = builder.like(root.get(fieldName), str);
-                    }
-                }
-
                 if (this.isCreatedAtField(field)) {
                     LocalDate startDate = requestDto.getStartDate();
                     LocalDate endDate = requestDto.getEndDate();
+                    Expression<LocalDate> createdAtColumn = root.get(fieldName).as(LocalDate.class);
 
                     if (startDate != null && endDate != null) {
-                        predicate = builder.between(root.get(fieldName).as(LocalDate.class), startDate, endDate);
+                        predicate = builder.between(createdAtColumn, startDate, endDate);
                     } else if (startDate != null) {
-                        predicate = builder.greaterThanOrEqualTo(root.get(fieldName)
-                                .as(LocalDate.class), startDate);
+                        predicate = builder.greaterThanOrEqualTo(createdAtColumn, startDate);
                     } else if (endDate != null) {
-                        predicate = builder.lessThanOrEqualTo(root.get(fieldName).as(LocalDate.class), endDate);
+                        predicate = builder.lessThanOrEqualTo(createdAtColumn, endDate);
                     } else if (value != null) {
-                        predicate = builder.equal(root.get(fieldName).as(LocalDate.class), value);
+                        predicate = builder.equal(createdAtColumn, value);
                     }
-                }
-
-                if (value != null && predicate == null) {
-                    predicate = builder.equal(root.get(fieldName), value);
+                } else if (value != null) {
+                    if (value instanceof String && value.toString().contains("*")) {
+                        String like = value.toString().replaceAll("\\*", "%");
+                        predicate = builder.like(root.get(fieldName), like);
+                    } else {
+                        predicate = builder.equal(root.get(fieldName), value);
+                    }
                 }
 
                 if (predicate != null) {

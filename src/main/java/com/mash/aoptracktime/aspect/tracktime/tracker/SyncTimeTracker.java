@@ -15,7 +15,6 @@ public class SyncTimeTracker extends AbstractTimeTracker {
 
     @Override
     protected Object bind(Object result, ProceedingJoinPoint proceedingJoinPoint, StopWatch stopWatch, Throwable t) {
-        stopWatch.stop();
         this.recordStat(proceedingJoinPoint, stopWatch, new TrackTimeAnnotationData(proceedingJoinPoint), t);
         return result;
     }

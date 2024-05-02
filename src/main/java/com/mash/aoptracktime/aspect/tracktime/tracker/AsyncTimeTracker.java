@@ -19,19 +19,18 @@ public class AsyncTimeTracker extends AbstractTimeTracker {
     protected Object bind(Object result, ProceedingJoinPoint proceedingJoinPoint, StopWatch stopWatch, Throwable t) {
         TrackAsyncTimeAnnotationData annotationData = new TrackAsyncTimeAnnotationData(proceedingJoinPoint);
 
-        boolean bindToFuture = annotationData.getAnnotation().bindToFuture();
+        Future<?> future = this.tryBindToFuture(result, proceedingJoinPoint, stopWatch, annotationData);
 
-        if (bindToFuture) {
-            return this.bindToFuture(result, proceedingJoinPoint, stopWatch, annotationData);
+        if (future != null) {
+            return future;
         }
 
-        stopWatch.stop();
-        CompletableFuture.runAsync(() -> this.recordStat(proceedingJoinPoint, stopWatch, annotationData, t));
+        this.recordStat(proceedingJoinPoint, stopWatch, annotationData, t);
         return result;
     }
 
-    private CompletableFuture<?> bindToFuture(Object result, ProceedingJoinPoint proceedingJoinPoint,
-                                              StopWatch stopWatch, TrackAsyncTimeAnnotationData annotationData) {
+    private CompletableFuture<?> tryBindToFuture(Object result, ProceedingJoinPoint proceedingJoinPoint,
+                                                 StopWatch stopWatch, TrackAsyncTimeAnnotationData annotationData) {
         CompletableFuture<?> future = null;
 
         if (result instanceof CompletableFuture<?>) {
@@ -46,14 +45,10 @@ public class AsyncTimeTracker extends AbstractTimeTracker {
             });
         }
 
-        if (future == null) {
-            throw new IllegalStateException(
-                    "@TrackAsyncTime to be bound to future result must return either CompletableFuture or Future");
+        if (future != null) {
+            return future.whenComplete((res, err) -> this.recordStat(proceedingJoinPoint, stopWatch, annotationData, err));
         }
 
-        return future.whenComplete((res, err) -> {
-            stopWatch.stop();
-            this.recordStat(proceedingJoinPoint, stopWatch, annotationData, err);
-        });
+        return future;
     }
 }

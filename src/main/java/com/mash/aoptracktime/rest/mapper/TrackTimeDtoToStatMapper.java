@@ -10,20 +10,14 @@ import java.util.function.Function;
 public class TrackTimeDtoToStatMapper implements Function<TrackTimeDto, TrackTimeStat> {
     @Override
     public TrackTimeStat apply(TrackTimeDto requestDto) {
-        TrackTimeStat.TrackTimeStatBuilder builder = TrackTimeStat.builder()
+        return TrackTimeStat.builder()
                 .groupName(requestDto.getGroupName())
                 .returnType(requestDto.getReturnType())
                 .packageName(requestDto.getPackageName())
                 .methodName(requestDto.getMethodName())
                 .parameters(requestDto.getParameters())
-                .status(requestDto.getStatus());
-
-        if (requestDto.getStartDate() == null && requestDto.getEndDate() == null) {
-            if (requestDto.getDate() != null) {
-                builder.createdAt(requestDto.getDate().atStartOfDay());
-            }
-        }
-
-        return builder.build();
+                .status(requestDto.getStatus())
+                .createdAt(requestDto.getCreatedAt())
+                .build();
     }
 }

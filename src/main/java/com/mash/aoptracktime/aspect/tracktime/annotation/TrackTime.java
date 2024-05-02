@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TrackTime {
-    String groupName() default "";
+    String groupName() default "sync";
 
     boolean ignoreOnException() default false;
 }
