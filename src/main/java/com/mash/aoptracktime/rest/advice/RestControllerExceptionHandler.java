@@ -15,7 +15,7 @@ public class RestControllerExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<ErrorMessage> handleException(Exception ex, WebRequest request) {
-        final ErrorMessage errorMessage = new ErrorMessage(
+        ErrorMessage errorMessage = new ErrorMessage(
                 HttpStatus.BAD_REQUEST.value(),
                 LocalDateTime.now(),
                 ex.getMessage(),

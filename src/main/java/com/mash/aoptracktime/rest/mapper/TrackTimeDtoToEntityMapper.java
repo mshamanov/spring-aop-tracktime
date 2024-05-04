@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.function.Function;
 
 @Component
-public class TrackTimeDtoToStatMapper implements Function<TrackTimeDto, TrackTimeStat> {
+public class TrackTimeDtoToEntityMapper implements Function<TrackTimeDto, TrackTimeStat> {
     @Override
     public TrackTimeStat apply(TrackTimeDto requestDto) {
         return TrackTimeStat.builder()

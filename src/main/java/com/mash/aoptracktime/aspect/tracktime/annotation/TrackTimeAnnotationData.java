@@ -12,7 +12,7 @@ public class TrackTimeAnnotationData implements TrackAnnotationData {
         MethodSignature methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();
         Method method = methodSignature.getMethod();
 
-        if (method.isAnnotationPresent(TrackTime.class)) {
+        if (!method.isAnnotationPresent(TrackTime.class)) {
             throw new IllegalStateException("Method " + method.getName() + " does not have @TrackTime annotation");
         }
 

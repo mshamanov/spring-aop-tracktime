@@ -11,9 +11,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.stream.Stream;
 
 @Data
 @NoArgsConstructor
@@ -59,4 +61,18 @@ public class TrackTimeDto {
     @JsonProperty(value = "endDate", access = JsonProperty.Access.WRITE_ONLY)
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate endDate;
+
+    public static boolean isAllEmpty(TrackTimeDto trackTimeDto) {
+        return Stream.of(trackTimeDto.groupName,
+                        trackTimeDto.returnType,
+                        trackTimeDto.packageName,
+                        trackTimeDto.className,
+                        trackTimeDto.methodName,
+                        trackTimeDto.parameters,
+                        trackTimeDto.status,
+                        trackTimeDto.createdAt,
+                        trackTimeDto.startDate,
+                        trackTimeDto.endDate)
+                .allMatch(ObjectUtils::isEmpty);
+    }
 }

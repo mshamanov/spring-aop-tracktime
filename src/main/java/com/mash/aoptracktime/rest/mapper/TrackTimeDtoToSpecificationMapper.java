@@ -20,7 +20,7 @@ import java.util.function.Function;
 @Component
 @RequiredArgsConstructor
 public class TrackTimeDtoToSpecificationMapper implements Function<TrackTimeDto, Specification<TrackTimeStat>> {
-    private final TrackTimeDtoToStatMapper toEntityMapper;
+    private final TrackTimeDtoToEntityMapper toEntityMapper;
 
     @Override
     public Specification<TrackTimeStat> apply(TrackTimeDto requestDto) {
