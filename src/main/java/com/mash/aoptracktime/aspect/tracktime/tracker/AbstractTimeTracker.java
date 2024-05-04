@@ -1,6 +1,6 @@
 package com.mash.aoptracktime.aspect.tracktime.tracker;
 
-import com.mash.aoptracktime.aspect.tracktime.annotation.TrackAnnotationData;
+import com.mash.aoptracktime.aspect.AspectProceedingBinder;
 import com.mash.aoptracktime.entity.TrackTimeMethodStatus;
 import com.mash.aoptracktime.entity.TrackTimeStat;
 import com.mash.aoptracktime.service.TrackTimeStatsService;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-public abstract class AbstractTimeTracker implements TimeTracker {
+public abstract class AbstractTimeTracker implements AspectProceedingBinder {
 
     private final TrackTimeStatsService trackTimeStatsService;
 
@@ -41,9 +41,11 @@ public abstract class AbstractTimeTracker implements TimeTracker {
         return result;
     }
 
-    protected abstract Object bind(Object result, ProceedingJoinPoint proceedingJoinPoint, StopWatch stopWatch, Throwable t);
+    protected abstract Object bind(Object result, ProceedingJoinPoint proceedingJoinPoint,
+                                   StopWatch stopWatch, Throwable t);
 
-    protected void recordStat(ProceedingJoinPoint proceedingJoinPoint, StopWatch stopWatch, TrackAnnotationData annotationData, Throwable throwable) {
+    protected void recordStat(ProceedingJoinPoint proceedingJoinPoint, StopWatch stopWatch,
+                              TrackTimeAnnotationData annotationData, Throwable throwable) {
         if (!stopWatch.isRunning()) {
             throw new IllegalStateException("StopWatch is not running");
         }
@@ -66,7 +68,8 @@ public abstract class AbstractTimeTracker implements TimeTracker {
         this.trackTimeStatsService.saveAsync(stats);
     }
 
-    protected TrackTimeStat buildStat(ProceedingJoinPoint proceedingJoinPoint, StopWatch stopWatch, TrackAnnotationData annotationData, Throwable t) {
+    protected TrackTimeStat buildStat(ProceedingJoinPoint proceedingJoinPoint, StopWatch stopWatch,
+                                      TrackTimeAnnotationData annotationData, Throwable t) {
         MethodSignature methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();
 
         String groupName = annotationData.groupName();

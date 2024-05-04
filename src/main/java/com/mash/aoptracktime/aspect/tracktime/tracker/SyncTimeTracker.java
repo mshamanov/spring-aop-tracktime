@@ -1,6 +1,5 @@
 package com.mash.aoptracktime.aspect.tracktime.tracker;
 
-import com.mash.aoptracktime.aspect.tracktime.annotation.TrackTimeAnnotationData;
 import com.mash.aoptracktime.service.TrackTimeStatsService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.springframework.stereotype.Component;
@@ -15,7 +14,7 @@ public class SyncTimeTracker extends AbstractTimeTracker {
 
     @Override
     protected Object bind(Object result, ProceedingJoinPoint proceedingJoinPoint, StopWatch stopWatch, Throwable t) {
-        this.recordStat(proceedingJoinPoint, stopWatch, new TrackTimeAnnotationData(proceedingJoinPoint), t);
+        this.recordStat(proceedingJoinPoint, stopWatch, new TrackSyncTimeAnnotationData(proceedingJoinPoint), t);
         return result;
     }
 }

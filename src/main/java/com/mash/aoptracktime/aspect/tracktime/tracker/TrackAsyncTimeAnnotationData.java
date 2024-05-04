@@ -1,11 +1,12 @@
-package com.mash.aoptracktime.aspect.tracktime.annotation;
+package com.mash.aoptracktime.aspect.tracktime.tracker;
 
+import com.mash.aoptracktime.aspect.tracktime.annotation.TrackAsyncTime;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 
 import java.lang.reflect.Method;
 
-public class TrackAsyncTimeAnnotationData implements TrackAnnotationData {
+public class TrackAsyncTimeAnnotationData implements TrackTimeAnnotationData {
     private final TrackAsyncTime trackAsyncTime;
 
     public TrackAsyncTimeAnnotationData(ProceedingJoinPoint proceedingJoinPoint) {

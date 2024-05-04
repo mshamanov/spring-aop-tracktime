@@ -1,7 +1,7 @@
-package com.mash.aoptracktime.aspect.tracktime.tracker;
+package com.mash.aoptracktime.aspect;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 
-public interface TimeTracker {
+public interface AspectProceedingBinder {
     Object bind(ProceedingJoinPoint proceedingJoinPoint) throws Throwable;
 }

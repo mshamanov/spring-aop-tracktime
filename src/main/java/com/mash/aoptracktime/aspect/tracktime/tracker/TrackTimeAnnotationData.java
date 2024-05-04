@@ -1,8 +1,8 @@
-package com.mash.aoptracktime.aspect.tracktime.annotation;
+package com.mash.aoptracktime.aspect.tracktime.tracker;
 
 import java.lang.annotation.Annotation;
 
-public interface TrackAnnotationData {
+public interface TrackTimeAnnotationData {
     String groupName();
 
     boolean ignoreOnException();

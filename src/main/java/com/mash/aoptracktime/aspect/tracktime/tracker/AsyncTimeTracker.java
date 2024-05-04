@@ -1,6 +1,5 @@
 package com.mash.aoptracktime.aspect.tracktime.tracker;
 
-import com.mash.aoptracktime.aspect.tracktime.annotation.TrackAsyncTimeAnnotationData;
 import com.mash.aoptracktime.service.TrackTimeStatsService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.springframework.stereotype.Component;

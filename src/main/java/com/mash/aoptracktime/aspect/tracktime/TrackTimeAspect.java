@@ -1,6 +1,6 @@
 package com.mash.aoptracktime.aspect.tracktime;
 
-import com.mash.aoptracktime.aspect.tracktime.tracker.TimeTracker;
+import com.mash.aoptracktime.aspect.AspectProceedingBinder;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -9,27 +9,27 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-@Aspect
 @Slf4j
+@Aspect
 @Component
 public class TrackTimeAspect {
 
-    private final TimeTracker timeTracker;
-    private final TimeTracker timeAsyncTracker;
+    private final AspectProceedingBinder timeTracker;
+    private final AspectProceedingBinder timeAsyncTracker;
 
-    public TrackTimeAspect(@Qualifier("syncTimeTracker") TimeTracker timeTracker,
-                           @Qualifier("asyncTimeTracker") TimeTracker timeAsyncTracker) {
+    public TrackTimeAspect(@Qualifier("syncTimeTracker") AspectProceedingBinder timeTracker,
+                           @Qualifier("asyncTimeTracker") AspectProceedingBinder timeAsyncTracker) {
         this.timeTracker = timeTracker;
         this.timeAsyncTracker = timeAsyncTracker;
     }
 
     @Pointcut("@annotation(com.mash.aoptracktime.aspect.tracktime.annotation.TrackTime) && " +
-            "!@annotation(com.mash.aoptracktime.aspect.tracktime.annotation.TrackAsyncTime)")
+              "!@annotation(com.mash.aoptracktime.aspect.tracktime.annotation.TrackAsyncTime)")
     private void trackTimeAspect() {
     }
 
     @Pointcut("@annotation(com.mash.aoptracktime.aspect.tracktime.annotation.TrackAsyncTime) && " +
-            "!@annotation(com.mash.aoptracktime.aspect.tracktime.annotation.TrackTime)")
+              "!@annotation(com.mash.aoptracktime.aspect.tracktime.annotation.TrackTime)")
     private void asyncTrackTimeAspect() {
     }
 

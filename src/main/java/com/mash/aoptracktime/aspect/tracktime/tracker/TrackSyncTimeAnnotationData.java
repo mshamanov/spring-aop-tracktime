@@ -1,14 +1,15 @@
-package com.mash.aoptracktime.aspect.tracktime.annotation;
+package com.mash.aoptracktime.aspect.tracktime.tracker;
 
+import com.mash.aoptracktime.aspect.tracktime.annotation.TrackTime;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 
 import java.lang.reflect.Method;
 
-public class TrackTimeAnnotationData implements TrackAnnotationData {
+public class TrackSyncTimeAnnotationData implements TrackTimeAnnotationData {
     private final TrackTime trackTime;
 
-    public TrackTimeAnnotationData(ProceedingJoinPoint proceedingJoinPoint) {
+    public TrackSyncTimeAnnotationData(ProceedingJoinPoint proceedingJoinPoint) {
         MethodSignature methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();
         Method method = methodSignature.getMethod();
 
