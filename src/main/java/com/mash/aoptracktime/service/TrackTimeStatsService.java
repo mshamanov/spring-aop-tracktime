@@ -9,28 +9,29 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
 public class TrackTimeStatsService {
-    private final TrackTimeStatsRepository trackTimeStatsRepository;
+    private final TrackTimeStatsRepository repository;
 
     @Transactional
-    public void save(TrackTimeStat stats) {
-        this.trackTimeStatsRepository.save(stats);
+    public TrackTimeStat save(TrackTimeStat stats) {
+        return this.repository.save(stats);
     }
 
     @Async
     @Transactional
-    public void saveAsync(TrackTimeStat stats) {
-        this.save(stats);
+    public CompletableFuture<TrackTimeStat> saveAsync(TrackTimeStat stats) {
+        return CompletableFuture.completedFuture(this.save(stats));
     }
 
     public List<TrackTimeStat> findAll() {
-        return this.trackTimeStatsRepository.findAll();
+        return this.repository.findAll();
     }
 
     public List<TrackTimeStat> findAll(Specification<TrackTimeStat> specification) {
-        return this.trackTimeStatsRepository.findAll(specification);
+        return this.repository.findAll(specification);
     }
 }

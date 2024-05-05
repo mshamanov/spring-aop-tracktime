@@ -1,34 +1,32 @@
 package com.mash.aoptracktime;
 
-import com.mash.aoptracktime.service.EmployeesService;
-import lombok.RequiredArgsConstructor;
+import com.mash.aoptracktime.generator.RandomEmployeesGenerator;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.EnableAsync;
-
-import java.util.ArrayList;
 
 @Slf4j
 @EnableAsync
-@RequiredArgsConstructor
+@AllArgsConstructor
 @SpringBootApplication
 public class AopTrackTimeApplication {
-    private final EmployeesService employeesService;
-
     public static void main(String[] args) {
         SpringApplication.run(AopTrackTimeApplication.class, args);
     }
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void onReady() {
-        final int employeesNumber = 10000;
-        this.employeesService.getRandomEmployees(employeesNumber);
-
-        this.employeesService.fillWithRandomEmployeesAsyncReturningVoid(new ArrayList<>(), employeesNumber);
-        this.employeesService.getRandomEmployeesAsyncAsCompletableFuture(employeesNumber);
-        this.employeesService.getRandomEmployeesAsyncAsFuture(employeesNumber);
+    @Profile("dev")
+    @Bean
+    public CommandLineRunner commandLineRunner(RandomEmployeesGenerator employeeRandomGenerator) {
+        return args -> {
+            Long employeesNumber = 10000L;
+            employeeRandomGenerator.generate(employeesNumber);
+            employeeRandomGenerator.generateAsFuture(employeesNumber);
+            employeeRandomGenerator.generateAsCompletableFuture(employeesNumber);
+        };
     }
 }

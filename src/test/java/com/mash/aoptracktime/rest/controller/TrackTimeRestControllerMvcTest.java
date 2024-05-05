@@ -8,19 +8,16 @@ import com.mash.aoptracktime.rest.mapper.TrackTimeDtoToEntityMapper;
 import com.mash.aoptracktime.rest.mapper.TrackTimeDtoToSpecificationMapper;
 import com.mash.aoptracktime.rest.mapper.TrackTimeEntityToDtoMapper;
 import com.mash.aoptracktime.rest.model.TrackTimeDto;
-import com.mash.aoptracktime.service.EmployeesService;
 import com.mash.aoptracktime.service.TrackTimeStatsService;
-import net.datafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
@@ -35,20 +32,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(TrackTimeRestController.class)
-class TrackTimeRestControllerTest {
-    @TestConfiguration
-    static class TrackTimeRestControllerTestConfig {
-        @Bean
-        Faker faker() {
-            return new Faker();
-        }
-
-        @Bean
-        EmployeesService employeesService(Faker faker) {
-            return new EmployeesService(faker);
-        }
-    }
-
+@ActiveProfiles("test")
+class TrackTimeRestControllerMvcTest {
     @MockBean
     TrackTimeStatsService timeStatsService;
 
@@ -110,7 +95,7 @@ class TrackTimeRestControllerTest {
 
     @Test
     @DisplayName("GET /api/tracktimestats/all :: query params are default")
-    void handleGetStats_QueryParamsDefault_ReturnsAllDataWithSummaryStatistics() throws Exception {
+    void handleGetStats_whenQueryParamsAreDefault_returnsAllDataWithSummary() throws Exception {
         when(this.timeStatsService.findAll()).thenReturn(this.trackTimeStats);
 
         List<TrackTimeDto> dtoList = this.trackTimeStats.stream().map(this.toDtoMapper).toList();
@@ -135,7 +120,7 @@ class TrackTimeRestControllerTest {
 
     @Test
     @DisplayName("GET /api/tracktimestats/all?view=all")
-    void handleGetStats_ViewTypeAsAll_ReturnsAllDataWithSummaryStatistics() throws Exception {
+    void handleGetStats_whenViewTypeIsAll_returnsAllDataWithSummary() throws Exception {
         when(this.timeStatsService.findAll()).thenReturn(this.trackTimeStats);
 
         List<TrackTimeDto> dtoList = this.trackTimeStats.stream().map(this.toDtoMapper).toList();
@@ -161,7 +146,7 @@ class TrackTimeRestControllerTest {
 
     @Test
     @DisplayName("GET /api/tracktimestats/all?view=data")
-    void handleGetStats_ViewTypeAsData_ReturnsOnlyAllData() throws Exception {
+    void handleGetStats_whenViewTypeIsData_returnsOnlyDataWithNoSummary() throws Exception {
         when(this.timeStatsService.findAll()).thenReturn(this.trackTimeStats);
 
         List<TrackTimeDto> dtoList = this.trackTimeStats.stream().map(this.toDtoMapper).toList();
@@ -183,7 +168,7 @@ class TrackTimeRestControllerTest {
 
     @Test
     @DisplayName("GET /api/tracktimestats/all?view=summary")
-    void handleGetStats_ViewTypeAsSummary_ReturnsOnlySummaryStatistics() throws Exception {
+    void handleGetStats_whenViewTypeIsSummary_returnsOnlySummaryWithNoData() throws Exception {
         when(this.timeStatsService.findAll()).thenReturn(this.trackTimeStats);
 
         List<TrackTimeDto> dtoList = this.trackTimeStats.stream().map(this.toDtoMapper).toList();
@@ -206,7 +191,7 @@ class TrackTimeRestControllerTest {
 
     @Test
     @DisplayName("GET /api/tracktimestats/all?view=all&short=true")
-    void handleGetStats_ViewTypeAsAll_ShortInfoTrue_ReturnsAllShortDataWithSummaryStatistics() throws Exception {
+    void handleGetStats_whenViewTypeIsAll_shortInfoIsTrue_returnsAllDataInShortFormatWithSummary() throws Exception {
         when(this.timeStatsService.findAll()).thenReturn(this.trackTimeStats);
 
         List<TrackTimeDto> dtoList = this.trackTimeStats.stream()
@@ -238,7 +223,7 @@ class TrackTimeRestControllerTest {
 
     @Test
     @DisplayName("GET /api/tracktimestats/all?view=data&short=true")
-    void handleGetStats_ViewTypeAsData_ShortInfoTrue_ReturnsOnlyAllShortData() throws Exception {
+    void handleGetStats_whenViewTypeIsData_shortInfoIsTrue_returnsOnlyDataInShortFormatWithNoSummary() throws Exception {
         when(this.timeStatsService.findAll()).thenReturn(this.trackTimeStats);
 
         List<TrackTimeDto> dtoList = this.trackTimeStats.stream()
@@ -266,7 +251,7 @@ class TrackTimeRestControllerTest {
 
     @Test
     @DisplayName("GET /api/tracktimestats/all?view=summary&short=true")
-    void handleGetStats_ViewTypeAsSummary_ShortInfoTrue_ReturnsOnlySummaryStatistics() throws Exception {
+    void handleGetStats_whenViewTypeIsSummary_shortInfoIsTrue_returnsOnlySummary() throws Exception {
         when(this.timeStatsService.findAll()).thenReturn(this.trackTimeStats);
 
         List<TrackTimeDto> dtoList = this.trackTimeStats.stream()
@@ -296,7 +281,7 @@ class TrackTimeRestControllerTest {
 
     @Test
     @DisplayName("POST /api/tracktimestats/search :: json body is null")
-    void handleGetStats_RequestBodyIsNull_ReturnsErrorMessageSearchPropertiesMustBeSet() throws Exception {
+    void handlePostSearch_whenRequestBodyIsNull_returnsErrorMessageSearchPropertiesMustBeSet() throws Exception {
         this.mockMvc.perform(post("/api/tracktimestats/search")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -316,7 +301,7 @@ class TrackTimeRestControllerTest {
 
     @Test
     @DisplayName("POST /api/tracktimestats/search :: empty json body")
-    void handleGetStats_RequestBodyIsEmpty_ReturnsErrorMessageSearchPropertiesMustBeSet() throws Exception {
+    void handlePostSearch_whenRequestBodyIsEmpty_returnsErrorMessageSearchPropertiesMustBeSet() throws Exception {
         this.mockMvc.perform(post("/api/tracktimestats/search")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{}"))
