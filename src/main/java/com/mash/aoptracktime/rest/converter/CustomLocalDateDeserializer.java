@@ -1,5 +1,6 @@
 package com.mash.aoptracktime.rest.converter;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
@@ -19,8 +20,8 @@ public class CustomLocalDateDeserializer extends JsonDeserializer<LocalDate> {
         try {
             return LocalDate.parse(valueAsString, this.formatter);
         } catch (DateTimeException e) {
-            throw new IllegalArgumentException("Could not parse date: " + valueAsString +
-                                               ", valid format: " + this.pattern.toLowerCase(), e);
+            throw new JsonParseException(p, "Could not parse date: " + valueAsString +
+                                         ", valid format: " + this.pattern, e);
         }
     }
 }
