@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 @RestController
 @RequestMapping(path = "/api/tracktimestats",
@@ -55,18 +56,15 @@ public class TrackTimeRestController {
 
     private ResponseEntity<Map<String, Object>> prepareResponse(Collection<? extends TrackTimeStat> data,
                                                                 String viewType, boolean shortInfo) {
-        List<TrackTimeDto> resultList;
 
+        Function<TrackTimeStat, TrackTimeDto> toDtoMapper;
         if (shortInfo) {
-            resultList = data.stream()
-                    .map(stat -> TrackTimeDto.builder()
-                            .methodName(stat.getMethodName())
-                            .executionTime(stat.getExecutionTime()).build())
-                    .toList();
+            toDtoMapper = this.toDtoMapper.toShort();
         } else {
-            resultList = data.stream().map(this.toDtoMapper).toList();
+            toDtoMapper = this.toDtoMapper.toNormal();
         }
 
+        List<TrackTimeDto> resultList = data.stream().map(toDtoMapper).toList();
         var statistics = resultList.stream().mapToLong(TrackTimeDto::getExecutionTime).summaryStatistics();
         var summary = this.statisticsToSummaryMapper.apply(statistics);
 

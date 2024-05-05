@@ -7,10 +7,15 @@ import org.springframework.stereotype.Component;
 import java.util.function.Function;
 
 @Component
-public class TrackTimeEntityToDtoMapper implements Function<TrackTimeStat, TrackTimeDto> {
-    @Override
-    public TrackTimeDto apply(TrackTimeStat stat) {
-        return TrackTimeDto.builder()
+public class TrackTimeEntityToDtoMapper {
+    public Function<TrackTimeStat, TrackTimeDto> toShort() {
+        return stat -> TrackTimeDto.builder()
+                .methodName(stat.getMethodName())
+                .executionTime(stat.getExecutionTime()).build();
+    }
+
+    public Function<TrackTimeStat, TrackTimeDto> toNormal() {
+        return stat -> TrackTimeDto.builder()
                 .groupName(stat.getGroupName())
                 .packageName(stat.getPackageName())
                 .className(stat.getPackageName())

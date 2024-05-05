@@ -98,7 +98,7 @@ class TrackTimeRestControllerMvcTest {
     void handleGetStats_whenQueryParamsAreDefault_returnsAllDataWithSummary() throws Exception {
         when(this.timeStatsService.findAll()).thenReturn(this.trackTimeStats);
 
-        List<TrackTimeDto> dtoList = this.trackTimeStats.stream().map(this.toDtoMapper).toList();
+        List<TrackTimeDto> dtoList = this.trackTimeStats.stream().map(this.toDtoMapper.toNormal()).toList();
         var statistics = dtoList.stream().mapToLong(TrackTimeDto::getExecutionTime).summaryStatistics();
 
         Map<String, Object> resultBody = Map.of(
@@ -123,7 +123,7 @@ class TrackTimeRestControllerMvcTest {
     void handleGetStats_whenViewTypeIsAll_returnsAllDataWithSummary() throws Exception {
         when(this.timeStatsService.findAll()).thenReturn(this.trackTimeStats);
 
-        List<TrackTimeDto> dtoList = this.trackTimeStats.stream().map(this.toDtoMapper).toList();
+        List<TrackTimeDto> dtoList = this.trackTimeStats.stream().map(this.toDtoMapper.toNormal()).toList();
         var statistics = dtoList.stream().mapToLong(TrackTimeDto::getExecutionTime).summaryStatistics();
 
         Map<String, Object> resultBody = Map.of(
@@ -149,7 +149,7 @@ class TrackTimeRestControllerMvcTest {
     void handleGetStats_whenViewTypeIsData_returnsOnlyDataWithNoSummary() throws Exception {
         when(this.timeStatsService.findAll()).thenReturn(this.trackTimeStats);
 
-        List<TrackTimeDto> dtoList = this.trackTimeStats.stream().map(this.toDtoMapper).toList();
+        List<TrackTimeDto> dtoList = this.trackTimeStats.stream().map(this.toDtoMapper.toNormal()).toList();
 
         Map<String, Object> resultBody = Map.of("result", dtoList);
         String jsonContent = this.objectMapper.writeValueAsString(resultBody);
@@ -171,7 +171,7 @@ class TrackTimeRestControllerMvcTest {
     void handleGetStats_whenViewTypeIsSummary_returnsOnlySummaryWithNoData() throws Exception {
         when(this.timeStatsService.findAll()).thenReturn(this.trackTimeStats);
 
-        List<TrackTimeDto> dtoList = this.trackTimeStats.stream().map(this.toDtoMapper).toList();
+        List<TrackTimeDto> dtoList = this.trackTimeStats.stream().map(this.toDtoMapper.toNormal()).toList();
         var statistics = dtoList.stream().mapToLong(TrackTimeDto::getExecutionTime).summaryStatistics();
 
         Map<String, Object> resultBody = Map.of("summary", this.statisticsToSummaryMapper.apply(statistics));
@@ -194,12 +194,7 @@ class TrackTimeRestControllerMvcTest {
     void handleGetStats_whenViewTypeIsAll_shortInfoIsTrue_returnsAllDataInShortFormatWithSummary() throws Exception {
         when(this.timeStatsService.findAll()).thenReturn(this.trackTimeStats);
 
-        List<TrackTimeDto> dtoList = this.trackTimeStats.stream()
-                .map(stat -> TrackTimeDto.builder()
-                        .methodName(stat.getMethodName())
-                        .executionTime(stat.getExecutionTime())
-                        .build())
-                .toList();
+        List<TrackTimeDto> dtoList = this.trackTimeStats.stream().map(this.toDtoMapper.toShort()).toList();
         var statistics = dtoList.stream().mapToLong(TrackTimeDto::getExecutionTime).summaryStatistics();
 
         Map<String, Object> resultBody = Map.of(
@@ -226,12 +221,7 @@ class TrackTimeRestControllerMvcTest {
     void handleGetStats_whenViewTypeIsData_shortInfoIsTrue_returnsOnlyDataInShortFormatWithNoSummary() throws Exception {
         when(this.timeStatsService.findAll()).thenReturn(this.trackTimeStats);
 
-        List<TrackTimeDto> dtoList = this.trackTimeStats.stream()
-                .map(stat -> TrackTimeDto.builder()
-                        .methodName(stat.getMethodName())
-                        .executionTime(stat.getExecutionTime())
-                        .build())
-                .toList();
+        List<TrackTimeDto> dtoList = this.trackTimeStats.stream().map(this.toDtoMapper.toShort()).toList();
 
         Map<String, Object> resultBody = Map.of("result", dtoList);
         String jsonContent = this.objectMapper.writeValueAsString(resultBody);
@@ -254,12 +244,7 @@ class TrackTimeRestControllerMvcTest {
     void handleGetStats_whenViewTypeIsSummary_shortInfoIsTrue_returnsOnlySummary() throws Exception {
         when(this.timeStatsService.findAll()).thenReturn(this.trackTimeStats);
 
-        List<TrackTimeDto> dtoList = this.trackTimeStats.stream()
-                .map(stat -> TrackTimeDto.builder()
-                        .methodName(stat.getMethodName())
-                        .executionTime(stat.getExecutionTime())
-                        .build())
-                .toList();
+        List<TrackTimeDto> dtoList = this.trackTimeStats.stream().map(this.toDtoMapper.toShort()).toList();
 
         var statistics = dtoList.stream().mapToLong(TrackTimeDto::getExecutionTime).summaryStatistics();
 
