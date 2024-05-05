@@ -34,4 +34,8 @@ public class TrackTimeStatsService {
     public List<TrackTimeStat> findAll(Specification<TrackTimeStat> specification) {
         return this.repository.findAll(specification);
     }
+
+    public void deleteAll() {
+        this.repository.deleteAll();
+    }
 }
