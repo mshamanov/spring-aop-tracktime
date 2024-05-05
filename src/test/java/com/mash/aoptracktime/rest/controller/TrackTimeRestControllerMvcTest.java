@@ -3,6 +3,7 @@ package com.mash.aoptracktime.rest.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mash.aoptracktime.entity.TrackTimeMethodStatus;
 import com.mash.aoptracktime.entity.TrackTimeStat;
+import com.mash.aoptracktime.repository.TrackTimeStatsRepository;
 import com.mash.aoptracktime.rest.mapper.LongStatisticsToTrackTimeSummary;
 import com.mash.aoptracktime.rest.mapper.TrackTimeDtoToEntityMapper;
 import com.mash.aoptracktime.rest.mapper.TrackTimeDtoToSpecificationMapper;
@@ -35,7 +36,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 class TrackTimeRestControllerMvcTest {
     @MockBean
-    TrackTimeStatsService timeStatsService;
+    TrackTimeStatsRepository repository;
+
+    @SpyBean
+    TrackTimeStatsService service;
 
     @SpyBean
     TrackTimeDtoToEntityMapper trackTimeDtoToEntityMapper;
@@ -64,6 +68,7 @@ class TrackTimeRestControllerMvcTest {
                         .id(1L)
                         .groupName("async")
                         .packageName("com.mash.aoptracktime.service")
+                        .className("StudentsService")
                         .methodName("addStudent")
                         .executionTime(5023L)
                         .parameters("Object")
@@ -71,9 +76,10 @@ class TrackTimeRestControllerMvcTest {
                         .createdAt(LocalDateTime.now().minusDays(2))
                         .build(),
                 TrackTimeStat.builder()
-                        .id(1L)
+                        .id(2L)
                         .groupName("sync")
                         .packageName("com.mash.aoptracktime.service")
+                        .className("EmployeesService")
                         .methodName("addEmployee")
                         .executionTime(2015L)
                         .parameters("Object")
@@ -81,9 +87,10 @@ class TrackTimeRestControllerMvcTest {
                         .createdAt(LocalDateTime.now().minusDays(5))
                         .build(),
                 TrackTimeStat.builder()
-                        .id(1L)
+                        .id(3L)
                         .groupName("sync")
                         .packageName("com.mash.aoptracktime.service")
+                        .className("EmployeesService")
                         .methodName("getEmployees")
                         .executionTime(1033L)
                         .parameters(null)
@@ -96,7 +103,7 @@ class TrackTimeRestControllerMvcTest {
     @Test
     @DisplayName("GET /api/tracktimestats/all :: query params are default")
     void handleGetStats_whenQueryParamsAreDefault_returnsAllDataWithSummary() throws Exception {
-        when(this.timeStatsService.findAll()).thenReturn(this.trackTimeStats);
+        when(this.repository.findAll()).thenReturn(this.trackTimeStats);
 
         List<TrackTimeDto> dtoList = this.trackTimeStats.stream().map(this.toDtoMapper.toNormal()).toList();
         var statistics = dtoList.stream().mapToLong(TrackTimeDto::getExecutionTime).summaryStatistics();
@@ -115,13 +122,13 @@ class TrackTimeRestControllerMvcTest {
                         content().json(jsonContent, true)
                 );
 
-        verify(this.timeStatsService, times(1)).findAll();
+        verify(this.repository).findAll();
     }
 
     @Test
     @DisplayName("GET /api/tracktimestats/all?view=all")
     void handleGetStats_whenViewTypeIsAll_returnsAllDataWithSummary() throws Exception {
-        when(this.timeStatsService.findAll()).thenReturn(this.trackTimeStats);
+        when(this.repository.findAll()).thenReturn(this.trackTimeStats);
 
         List<TrackTimeDto> dtoList = this.trackTimeStats.stream().map(this.toDtoMapper.toNormal()).toList();
         var statistics = dtoList.stream().mapToLong(TrackTimeDto::getExecutionTime).summaryStatistics();
@@ -141,13 +148,13 @@ class TrackTimeRestControllerMvcTest {
                         content().json(jsonContent, true)
                 );
 
-        verify(this.timeStatsService, times(1)).findAll();
+        verify(this.repository).findAll();
     }
 
     @Test
     @DisplayName("GET /api/tracktimestats/all?view=data")
     void handleGetStats_whenViewTypeIsData_returnsOnlyDataWithNoSummary() throws Exception {
-        when(this.timeStatsService.findAll()).thenReturn(this.trackTimeStats);
+        when(this.repository.findAll()).thenReturn(this.trackTimeStats);
 
         List<TrackTimeDto> dtoList = this.trackTimeStats.stream().map(this.toDtoMapper.toNormal()).toList();
 
@@ -163,13 +170,13 @@ class TrackTimeRestControllerMvcTest {
                         content().json(jsonContent, true)
                 );
 
-        verify(this.timeStatsService, times(1)).findAll();
+        verify(this.repository).findAll();
     }
 
     @Test
     @DisplayName("GET /api/tracktimestats/all?view=summary")
     void handleGetStats_whenViewTypeIsSummary_returnsOnlySummaryWithNoData() throws Exception {
-        when(this.timeStatsService.findAll()).thenReturn(this.trackTimeStats);
+        when(this.repository.findAll()).thenReturn(this.trackTimeStats);
 
         List<TrackTimeDto> dtoList = this.trackTimeStats.stream().map(this.toDtoMapper.toNormal()).toList();
         var statistics = dtoList.stream().mapToLong(TrackTimeDto::getExecutionTime).summaryStatistics();
@@ -186,13 +193,13 @@ class TrackTimeRestControllerMvcTest {
                         content().json(jsonContent, true)
                 );
 
-        verify(this.timeStatsService, times(1)).findAll();
+        verify(this.repository).findAll();
     }
 
     @Test
     @DisplayName("GET /api/tracktimestats/all?view=all&short=true")
     void handleGetStats_whenViewTypeIsAll_shortInfoIsTrue_returnsAllDataInShortFormatWithSummary() throws Exception {
-        when(this.timeStatsService.findAll()).thenReturn(this.trackTimeStats);
+        when(this.repository.findAll()).thenReturn(this.trackTimeStats);
 
         List<TrackTimeDto> dtoList = this.trackTimeStats.stream().map(this.toDtoMapper.toShort()).toList();
         var statistics = dtoList.stream().mapToLong(TrackTimeDto::getExecutionTime).summaryStatistics();
@@ -213,13 +220,13 @@ class TrackTimeRestControllerMvcTest {
                         content().json(jsonContent, true)
                 );
 
-        verify(this.timeStatsService, times(1)).findAll();
+        verify(this.repository).findAll();
     }
 
     @Test
     @DisplayName("GET /api/tracktimestats/all?view=data&short=true")
     void handleGetStats_whenViewTypeIsData_shortInfoIsTrue_returnsOnlyDataInShortFormatWithNoSummary() throws Exception {
-        when(this.timeStatsService.findAll()).thenReturn(this.trackTimeStats);
+        when(this.repository.findAll()).thenReturn(this.trackTimeStats);
 
         List<TrackTimeDto> dtoList = this.trackTimeStats.stream().map(this.toDtoMapper.toShort()).toList();
 
@@ -236,13 +243,13 @@ class TrackTimeRestControllerMvcTest {
                         content().json(jsonContent, true)
                 );
 
-        verify(this.timeStatsService, times(1)).findAll();
+        verify(this.repository).findAll();
     }
 
     @Test
     @DisplayName("GET /api/tracktimestats/all?view=summary&short=true")
     void handleGetStats_whenViewTypeIsSummary_shortInfoIsTrue_returnsOnlySummary() throws Exception {
-        when(this.timeStatsService.findAll()).thenReturn(this.trackTimeStats);
+        when(this.repository.findAll()).thenReturn(this.trackTimeStats);
 
         List<TrackTimeDto> dtoList = this.trackTimeStats.stream().map(this.toDtoMapper.toShort()).toList();
 
@@ -261,7 +268,7 @@ class TrackTimeRestControllerMvcTest {
                         content().json(jsonContent, true)
                 );
 
-        verify(this.timeStatsService, times(1)).findAll();
+        verify(this.repository).findAll();
     }
 
     @Test
@@ -276,12 +283,12 @@ class TrackTimeRestControllerMvcTest {
                         content().json("""
                                 {
                                   "statusCode": 400,
-                                  "message": "At least one search property must be set"
+                                  "message": "At least one search property must be specified"
                                 }
                                 """)
                 );
 
-        verifyNoInteractions(this.timeStatsService);
+        verifyNoInteractions(this.repository);
     }
 
     @Test
@@ -297,11 +304,11 @@ class TrackTimeRestControllerMvcTest {
                         content().json("""
                                 {
                                   "statusCode": 400,
-                                  "message": "At least one search property must be set"
+                                  "message": "At least one search property must be specified"
                                 }
                                 """)
                 );
 
-        verifyNoInteractions(this.timeStatsService);
+        verifyNoInteractions(this.repository);
     }
 }
