@@ -47,7 +47,7 @@ public class TrackTimeRestController {
                                                @RequestParam(name = "view", defaultValue = "all") String viewType,
                                                @RequestParam(name = "short", defaultValue = "false") boolean shortInfo) {
         if (requestDto == null || TrackTimeDto.isAllEmpty(requestDto)) {
-            throw new IllegalStateException("At least one search property must be set");
+            throw new IllegalStateException("At least one search property must be specified");
         }
 
         List<TrackTimeStat> timeStats = this.trackTimeStatsService.findAll(this.toSpecificationMapper.apply(requestDto));
