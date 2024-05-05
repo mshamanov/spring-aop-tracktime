@@ -14,6 +14,7 @@ public class TrackTimeDtoToEntityMapper implements Function<TrackTimeDto, TrackT
                 .groupName(requestDto.getGroupName())
                 .returnType(requestDto.getReturnType())
                 .packageName(requestDto.getPackageName())
+                .className(requestDto.getClassName())
                 .methodName(requestDto.getMethodName())
                 .parameters(requestDto.getParameters())
                 .status(requestDto.getStatus())
