@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mash.aoptracktime.entity.TrackTimeMethodStatus;
+import com.mash.aoptracktime.rest.converter.CustomLocalDateDeserializer;
 import com.mash.aoptracktime.rest.converter.CustomLocalDateTimeDeserializer;
 import com.mash.aoptracktime.rest.converter.CustomTrackTimeMethodStatusDeserializer;
 import lombok.AllArgsConstructor;
@@ -55,10 +56,12 @@ public class TrackTimeDto {
     private LocalDateTime createdAt;
 
     @JsonProperty(value = "startDate", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonDeserialize(using = CustomLocalDateDeserializer.class)
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate startDate;
 
     @JsonProperty(value = "endDate", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonDeserialize(using = CustomLocalDateDeserializer.class)
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate endDate;
 
