@@ -20,32 +20,32 @@ public class TrackTimeStat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "group_name")
+    @Column(name = "group_name", nullable = false)
     private String groupName;
 
-    @Column(name = "return_type")
+    @Column(name = "return_type", nullable = false)
     private String returnType;
 
-    @Column(name = "package_name")
+    @Column(name = "package_name", nullable = false)
     private String packageName;
 
-    @Column(name = "class_name")
+    @Column(name = "class_name", nullable = false)
     private String className;
 
-    @Column(name = "method_name")
+    @Column(name = "method_name", nullable = false)
     private String methodName;
 
-    @Column(name = "parameters")
+    @Column(name = "parameters", nullable = false)
     private String parameters;
 
-    @Column(name = "execution_time")
+    @Column(name = "execution_time", nullable = false)
     private Long executionTime;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "method_status")
+    @Column(name = "method_status", nullable = false)
     private TrackTimeMethodStatus status;
 
     @CreationTimestamp
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 }
