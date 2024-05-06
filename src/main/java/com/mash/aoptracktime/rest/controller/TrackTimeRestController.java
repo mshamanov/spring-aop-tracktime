@@ -1,7 +1,7 @@
 package com.mash.aoptracktime.rest.controller;
 
 import com.mash.aoptracktime.entity.TrackTimeStat;
-import com.mash.aoptracktime.rest.mapper.LongStatisticsToTrackTimeSummary;
+import com.mash.aoptracktime.rest.mapper.LongStatisticsToSummaryMapper;
 import com.mash.aoptracktime.rest.mapper.TrackTimeDtoToSpecificationMapper;
 import com.mash.aoptracktime.rest.mapper.TrackTimeEntityToDtoMapper;
 import com.mash.aoptracktime.rest.model.TrackTimeDto;
@@ -33,7 +33,7 @@ public class TrackTimeRestController {
 
     private final TrackTimeDtoToSpecificationMapper toSpecificationMapper;
     private final TrackTimeEntityToDtoMapper toDtoMapper;
-    private final LongStatisticsToTrackTimeSummary statisticsToSummaryMapper;
+    private final LongStatisticsToSummaryMapper statisticsToSummaryMapper;
 
     @GetMapping({"", "/", "/all"})
     public ResponseEntity<?> getTrackTimeStats(@RequestParam(name = "view", defaultValue = "all") String viewType,
@@ -46,7 +46,7 @@ public class TrackTimeRestController {
     public ResponseEntity<?> getTrackTimeStats(@RequestBody(required = false) TrackTimeDto requestDto,
                                                @RequestParam(name = "view", defaultValue = "all") String viewType,
                                                @RequestParam(name = "short", defaultValue = "false") boolean shortInfo) {
-        if (requestDto == null || TrackTimeDto.isAllEmpty(requestDto)) {
+        if (requestDto == null || TrackTimeDto.isAllNull(requestDto)) {
             throw new IllegalStateException("At least one search property must be specified");
         }
 

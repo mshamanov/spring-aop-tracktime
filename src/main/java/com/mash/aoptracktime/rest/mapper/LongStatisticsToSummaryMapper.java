@@ -7,13 +7,13 @@ import java.util.LongSummaryStatistics;
 import java.util.function.Function;
 
 @Component
-public class LongStatisticsToTrackTimeSummary implements Function<LongSummaryStatistics, TrackTimeSummary> {
+public class LongStatisticsToSummaryMapper implements Function<LongSummaryStatistics, TrackTimeSummary> {
     @Override
     public TrackTimeSummary apply(LongSummaryStatistics statistics) {
         long count = statistics.getCount();
         long min = statistics.getMin();
         long max = statistics.getMax();
-        double average = statistics.getAverage();
+        double average = Math.round(statistics.getAverage() * 100) / 100.0d;
 
         return new TrackTimeSummary(count, min == Long.MAX_VALUE ? 0 : min, max == Long.MIN_VALUE ? 0 : max, average);
     }

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mash.aoptracktime.entity.TrackTimeMethodStatus;
 import com.mash.aoptracktime.entity.TrackTimeStat;
 import com.mash.aoptracktime.repository.TrackTimeStatsRepository;
-import com.mash.aoptracktime.rest.mapper.LongStatisticsToTrackTimeSummary;
+import com.mash.aoptracktime.rest.mapper.LongStatisticsToSummaryMapper;
 import com.mash.aoptracktime.rest.mapper.TrackTimeDtoToEntityMapper;
 import com.mash.aoptracktime.rest.mapper.TrackTimeDtoToSpecificationMapper;
 import com.mash.aoptracktime.rest.mapper.TrackTimeEntityToDtoMapper;
@@ -51,7 +51,7 @@ class TrackTimeRestControllerMvcTest {
     TrackTimeEntityToDtoMapper toDtoMapper;
 
     @SpyBean
-    LongStatisticsToTrackTimeSummary statisticsToSummaryMapper;
+    LongStatisticsToSummaryMapper statisticsToSummaryMapper;
 
     @Autowired
     MockMvc mockMvc;
