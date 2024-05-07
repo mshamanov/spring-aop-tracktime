@@ -14,11 +14,11 @@ import java.time.LocalDateTime;
 public class RestControllerExceptionHandler {
 
     @ExceptionHandler
-    public ResponseEntity<ErrorMessage> handleException(Exception ex, WebRequest request) {
+    public ResponseEntity<ErrorMessage> handleException(Exception e, WebRequest request) {
         ErrorMessage errorMessage = new ErrorMessage(
                 HttpStatus.BAD_REQUEST.value(),
                 LocalDateTime.now(),
-                ex.getMessage(),
+                e.getMessage(),
                 request.getDescription(false)
         );
 
