@@ -36,28 +36,28 @@ public class TrackTimeRestController {
 
     @GetMapping("/stats")
     public ResponseEntity<?> getTrackTimeStats(@RequestParam(name = "view", defaultValue = "all") String viewType,
-                                               @RequestParam(name = "short", defaultValue = "false") boolean shortInfo) {
+                                               @RequestParam(name = "short", defaultValue = "false") boolean shortFormat) {
         List<TrackTimeStat> timeStats = this.trackTimeStatsService.findAll();
-        return this.prepareResponse(timeStats, viewType, shortInfo);
+        return this.prepareResponse(timeStats, viewType, shortFormat);
     }
 
     @PostMapping("/stats")
-    public ResponseEntity<?> getTrackTimeStats(@RequestBody(required = false) TrackTimeDto requestDto,
-                                               @RequestParam(name = "view", defaultValue = "all") String viewType,
-                                               @RequestParam(name = "short", defaultValue = "false") boolean shortInfo) {
+    public ResponseEntity<?> searchTrackTimeStats(@RequestBody(required = false) TrackTimeDto requestDto,
+                                                  @RequestParam(name = "view", defaultValue = "all") String viewType,
+                                                  @RequestParam(name = "short", defaultValue = "false") boolean shortFormat) {
         if (requestDto == null || TrackTimeDto.isAllNull(requestDto)) {
             throw new IllegalStateException("At least one search property must be specified");
         }
 
         List<TrackTimeStat> timeStats = this.trackTimeStatsService.findAll(this.toSpecificationMapper.apply(requestDto));
-        return this.prepareResponse(timeStats, viewType, shortInfo);
+        return this.prepareResponse(timeStats, viewType, shortFormat);
     }
 
     private ResponseEntity<Map<String, Object>> prepareResponse(Collection<? extends TrackTimeStat> data,
-                                                                String viewType, boolean shortInfo) {
+                                                                String viewType, boolean shortFormat) {
 
         Function<TrackTimeStat, TrackTimeDto> toDtoMapper;
-        if (shortInfo) {
+        if (shortFormat) {
             toDtoMapper = this.toDtoMapper.toShort();
         } else {
             toDtoMapper = this.toDtoMapper.toNormal();

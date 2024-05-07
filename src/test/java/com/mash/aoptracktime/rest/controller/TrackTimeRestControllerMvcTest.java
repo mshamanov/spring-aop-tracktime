@@ -198,7 +198,7 @@ class TrackTimeRestControllerMvcTest {
 
     @Test
     @DisplayName("GET /api/v1/tracktime/stats?view=all&short=true")
-    void handleGetStats_whenViewTypeIsAll_shortInfoIsTrue_returnsAllDataInShortFormatWithSummary() throws Exception {
+    void handleGetStats_whenViewTypeIsAll_shortFormatIsTrue_returnsAllDataInShortFormatWithSummary() throws Exception {
         when(this.repository.findAll()).thenReturn(this.trackTimeStats);
 
         List<TrackTimeDto> dtoList = this.trackTimeStats.stream().map(this.toDtoMapper.toShort()).toList();
@@ -225,7 +225,7 @@ class TrackTimeRestControllerMvcTest {
 
     @Test
     @DisplayName("GET /api/v1/tracktime/stats?view=data&short=true")
-    void handleGetStats_whenViewTypeIsData_shortInfoIsTrue_returnsOnlyDataInShortFormatWithNoSummary() throws Exception {
+    void handleGetStats_whenViewTypeIsData_shortFormatIsTrue_returnsOnlyDataInShortFormatWithNoSummary() throws Exception {
         when(this.repository.findAll()).thenReturn(this.trackTimeStats);
 
         List<TrackTimeDto> dtoList = this.trackTimeStats.stream().map(this.toDtoMapper.toShort()).toList();
@@ -248,7 +248,7 @@ class TrackTimeRestControllerMvcTest {
 
     @Test
     @DisplayName("GET /api/v1/tracktime/stats?view=summary&short=true")
-    void handleGetStats_whenViewTypeIsSummary_shortInfoIsTrue_returnsOnlySummary() throws Exception {
+    void handleGetStats_whenViewTypeIsSummary_shortFormatIsTrue_returnsOnlySummary() throws Exception {
         when(this.repository.findAll()).thenReturn(this.trackTimeStats);
 
         List<TrackTimeDto> dtoList = this.trackTimeStats.stream().map(this.toDtoMapper.toShort()).toList();
