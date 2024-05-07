@@ -18,9 +18,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @RestController
-@RequestMapping(path = "/api/tracktimestats",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/api/tracktimestats")
 @RequiredArgsConstructor
 public class TrackTimeRestController {
     public static final class ViewTypes {
