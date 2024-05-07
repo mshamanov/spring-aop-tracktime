@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: aop-track-time
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: psql12345
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+  #    show-sql: true
+  #    properties:
+  #      hibernate:
+  #        format_sql: true
+
+  jackson:
+    mapper:
+      accept-case-insensitive-enums: true
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    url: /open-api.yaml

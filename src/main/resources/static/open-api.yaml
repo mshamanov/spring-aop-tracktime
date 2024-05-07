@@ -1,0 +1,279 @@
+openapi: 3.0.1
+info:
+  title: OpenApi specification
+  description: OpenApi documentation
+  contact:
+    name: Mikhail Shamanov
+    url: https://github.com/mshamanov/
+    email: shamanovma@gmail.com
+  version: '1.0'
+servers:
+  - url: http://localhost:8080
+    description: Local ENV
+paths:
+  /api/v1/tracktime/stats:
+    get:
+      tags:
+        - Methods Execution Time Tracking Controller
+      summary: Get endpoint to get all the data
+      description: Get endpoint to get all the statistics data on methods execution time
+      operationId: getTrackTimeStats
+      parameters:
+        - name: view
+          description: "View type of result data: **all** - methods data and summary statistics, **data** - only methods data, **summary** - only summary statistics"
+          in: query
+          required: false
+          schema:
+            type: string
+            default: all
+          examples:
+            all:
+              value: "all"
+              summary: Data and summary
+            data:
+              value: "data"
+              summary: Only data
+            summary:
+              value: "summary"
+              summary: Only summary
+        - name: short
+          description: "Represent methods data in a short way (method names and execution time only)"
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Response object
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - description: "normal"
+                    type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Response'
+                      summary:
+                        type: object
+                        properties:
+                          count:
+                            type: integer
+                          min:
+                            type: integer
+                          max:
+                            type: integer
+                          average:
+                            type: integer
+                  - description: "short"
+                    type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Response_Short'
+                      summary:
+                        type: object
+                        properties:
+                          count:
+                            type: integer
+                          min:
+                            type: integer
+                          max:
+                            type: integer
+                          average:
+                            type: integer
+        '400':
+          description: Error object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    post:
+      tags:
+        - Methods Execution Time Tracking Controller
+      summary: Post endpoint to get data via search parameters
+      description: Post endpoint to post a request to obtain statistics data on methods execution time via search parameters
+      operationId: postTrackTimeStats
+      parameters:
+        - name: view
+          description: "View type of result data: **all** - methods data and summary statistics, **data** - only methods data, **summary** - only summary statistics"
+          in: query
+          required: false
+          schema:
+            type: string
+            default: all
+          examples:
+            all:
+              value: "all"
+              summary: Data and summary
+            data:
+              value: "data"
+              summary: Only data
+            summary:
+              value: "summary"
+              summary: Only summary
+        - name: short
+          description: "Represent methods data in a short way (method names and execution time only)"
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Request'
+            examples:
+              Common:
+                value:
+                  methodName: addInfo
+              Masked:
+                value:
+                  methodName: add*
+              By date:
+                description: "Date format: dd-MM-yyyy"
+                value:
+                  createdAt: 01-01-2024
+              Between dates:
+                description: "Date format: dd-MM-yyyy"
+                value:
+                  startDate: 01-01-2024
+                  endDate: 05-01-2024
+      responses:
+        '200':
+          description: Response object
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - description: "normal"
+                    type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Response'
+                      summary:
+                        type: object
+                        properties:
+                          count:
+                            type: integer
+                          min:
+                            type: integer
+                          max:
+                            type: integer
+                          average:
+                            type: integer
+                  - description: "short"
+                    type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Response_Short'
+                      summary:
+                        type: object
+                        properties:
+                          count:
+                            type: integer
+                          min:
+                            type: integer
+                          max:
+                            type: integer
+                          average:
+                            type: integer
+        '400':
+          description: Error object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    Request:
+      description: "Search request"
+      type: object
+      properties:
+        groupName:
+          type: string
+        returnType:
+          type: string
+        packageName:
+          type: string
+        className:
+          type: string
+        methodName:
+          type: string
+        parameters:
+          type: string
+        status:
+          type: string
+          enum:
+            - completed
+            - exception
+        createdAt:
+          type: string
+          format: date
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+    Response:
+      description: "Data response"
+      type: object
+      properties:
+        groupName:
+          type: string
+        returnType:
+          type: string
+        packageName:
+          type: string
+        className:
+          type: string
+        methodName:
+          type: string
+        parameters:
+          type: string
+        executionTime:
+          type: integer
+          format: int64
+        status:
+          type: string
+          enum:
+            - completed
+            - exception
+        createdAt:
+          type: string
+          format: date-time
+    Response_Short:
+      description: "Short data response"
+      type: object
+      properties:
+        methodName:
+          type: string
+        executionTime:
+          type: integer
+          format: int64
+          readOnly: true
+    Error:
+      description: "Error response"
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        timestamp:
+          type: string
+          format: date-time
+        message:
+          type: string
+        description:
+          type: string

@@ -1,4 +1,4 @@
-package com.mash.aoptracktime.aspect.tracktime.tracker;
+package com.mash.aoptracktime.aspect.tracktime.impl;
 
 import com.mash.aoptracktime.service.TrackTimeStatsService;
 import org.aspectj.lang.ProceedingJoinPoint;

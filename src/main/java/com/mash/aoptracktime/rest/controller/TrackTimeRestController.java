@@ -20,6 +20,7 @@ import java.util.function.Function;
 @RestController
 @RequestMapping(path = "/api/v1/tracktime")
 @RequiredArgsConstructor
+@CrossOrigin("http://localhost:8080")
 public class TrackTimeRestController {
     public static final class ViewTypes {
         public static final String ALL = "ALL";

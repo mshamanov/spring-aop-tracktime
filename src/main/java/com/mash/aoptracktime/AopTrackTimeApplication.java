@@ -19,14 +19,14 @@ public class AopTrackTimeApplication {
         SpringApplication.run(AopTrackTimeApplication.class, args);
     }
 
-    @Profile("dev")
+    @Profile("!test")
     @Bean
     public CommandLineRunner commandLineRunner(RandomEmployeesGenerator employeeRandomGenerator) {
         return args -> {
-            Long employeesNumber = 10000L;
-            employeeRandomGenerator.generate(employeesNumber);
-            employeeRandomGenerator.generateAsFuture(employeesNumber);
-            employeeRandomGenerator.generateAsCompletableFuture(employeesNumber);
+//            Long employeesNumber = 10000L;
+//            employeeRandomGenerator.generate(employeesNumber);
+//            employeeRandomGenerator.generateAsFuture(employeesNumber);
+//            employeeRandomGenerator.generateAsCompletableFuture(employeesNumber);
         };
     }
 }
