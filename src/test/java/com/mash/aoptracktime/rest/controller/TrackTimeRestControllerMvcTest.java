@@ -101,7 +101,7 @@ class TrackTimeRestControllerMvcTest {
     }
 
     @Test
-    @DisplayName("GET /api/tracktimestats/all :: query params are default")
+    @DisplayName("GET /api/v1/tracktime/stats :: query params are default")
     void handleGetStats_whenQueryParamsAreDefault_returnsAllDataWithSummary() throws Exception {
         when(this.repository.findAll()).thenReturn(this.trackTimeStats);
 
@@ -114,7 +114,7 @@ class TrackTimeRestControllerMvcTest {
         );
         String jsonContent = this.objectMapper.writeValueAsString(resultBody);
 
-        this.mockMvc.perform(get("/api/tracktimestats/all").contentType(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(get("/api/v1/tracktime/stats").contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpectAll(
                         status().isOk(),
@@ -126,7 +126,7 @@ class TrackTimeRestControllerMvcTest {
     }
 
     @Test
-    @DisplayName("GET /api/tracktimestats/all?view=all")
+    @DisplayName("GET /api/v1/tracktime/stats?view=all")
     void handleGetStats_whenViewTypeIsAll_returnsAllDataWithSummary() throws Exception {
         when(this.repository.findAll()).thenReturn(this.trackTimeStats);
 
@@ -139,7 +139,7 @@ class TrackTimeRestControllerMvcTest {
         );
         String jsonContent = this.objectMapper.writeValueAsString(resultBody);
 
-        this.mockMvc.perform(get("/api/tracktimestats/all").contentType(MediaType.APPLICATION_JSON)
+        this.mockMvc.perform(get("/api/v1/tracktime/stats").contentType(MediaType.APPLICATION_JSON)
                         .queryParam("view", "all"))
                 .andDo(print())
                 .andExpectAll(
@@ -152,7 +152,7 @@ class TrackTimeRestControllerMvcTest {
     }
 
     @Test
-    @DisplayName("GET /api/tracktimestats/all?view=data")
+    @DisplayName("GET /api/v1/tracktime/stats?view=data")
     void handleGetStats_whenViewTypeIsData_returnsOnlyDataWithNoSummary() throws Exception {
         when(this.repository.findAll()).thenReturn(this.trackTimeStats);
 
@@ -161,7 +161,7 @@ class TrackTimeRestControllerMvcTest {
         Map<String, Object> resultBody = Map.of("result", dtoList);
         String jsonContent = this.objectMapper.writeValueAsString(resultBody);
 
-        this.mockMvc.perform(get("/api/tracktimestats/all").contentType(MediaType.APPLICATION_JSON)
+        this.mockMvc.perform(get("/api/v1/tracktime/stats").contentType(MediaType.APPLICATION_JSON)
                         .queryParam("view", "data"))
                 .andDo(print())
                 .andExpectAll(
@@ -174,7 +174,7 @@ class TrackTimeRestControllerMvcTest {
     }
 
     @Test
-    @DisplayName("GET /api/tracktimestats/all?view=summary")
+    @DisplayName("GET /api/v1/tracktime/stats?view=summary")
     void handleGetStats_whenViewTypeIsSummary_returnsOnlySummaryWithNoData() throws Exception {
         when(this.repository.findAll()).thenReturn(this.trackTimeStats);
 
@@ -184,7 +184,7 @@ class TrackTimeRestControllerMvcTest {
         Map<String, Object> resultBody = Map.of("summary", this.statisticsToSummaryMapper.apply(statistics));
         String jsonContent = this.objectMapper.writeValueAsString(resultBody);
 
-        this.mockMvc.perform(get("/api/tracktimestats/all").contentType(MediaType.APPLICATION_JSON)
+        this.mockMvc.perform(get("/api/v1/tracktime/stats").contentType(MediaType.APPLICATION_JSON)
                         .queryParam("view", "summary"))
                 .andDo(print())
                 .andExpectAll(
@@ -197,7 +197,7 @@ class TrackTimeRestControllerMvcTest {
     }
 
     @Test
-    @DisplayName("GET /api/tracktimestats/all?view=all&short=true")
+    @DisplayName("GET /api/v1/tracktime/stats?view=all&short=true")
     void handleGetStats_whenViewTypeIsAll_shortInfoIsTrue_returnsAllDataInShortFormatWithSummary() throws Exception {
         when(this.repository.findAll()).thenReturn(this.trackTimeStats);
 
@@ -210,7 +210,7 @@ class TrackTimeRestControllerMvcTest {
         );
         String jsonContent = this.objectMapper.writeValueAsString(resultBody);
 
-        this.mockMvc.perform(get("/api/tracktimestats/all").contentType(MediaType.APPLICATION_JSON)
+        this.mockMvc.perform(get("/api/v1/tracktime/stats").contentType(MediaType.APPLICATION_JSON)
                         .queryParam("view", "all")
                         .queryParam("short", "true"))
                 .andDo(print())
@@ -224,7 +224,7 @@ class TrackTimeRestControllerMvcTest {
     }
 
     @Test
-    @DisplayName("GET /api/tracktimestats/all?view=data&short=true")
+    @DisplayName("GET /api/v1/tracktime/stats?view=data&short=true")
     void handleGetStats_whenViewTypeIsData_shortInfoIsTrue_returnsOnlyDataInShortFormatWithNoSummary() throws Exception {
         when(this.repository.findAll()).thenReturn(this.trackTimeStats);
 
@@ -233,7 +233,7 @@ class TrackTimeRestControllerMvcTest {
         Map<String, Object> resultBody = Map.of("result", dtoList);
         String jsonContent = this.objectMapper.writeValueAsString(resultBody);
 
-        this.mockMvc.perform(get("/api/tracktimestats/all").contentType(MediaType.APPLICATION_JSON)
+        this.mockMvc.perform(get("/api/v1/tracktime/stats").contentType(MediaType.APPLICATION_JSON)
                         .queryParam("view", "data")
                         .queryParam("short", "true"))
                 .andDo(print())
@@ -247,7 +247,7 @@ class TrackTimeRestControllerMvcTest {
     }
 
     @Test
-    @DisplayName("GET /api/tracktimestats/all?view=summary&short=true")
+    @DisplayName("GET /api/v1/tracktime/stats?view=summary&short=true")
     void handleGetStats_whenViewTypeIsSummary_shortInfoIsTrue_returnsOnlySummary() throws Exception {
         when(this.repository.findAll()).thenReturn(this.trackTimeStats);
 
@@ -258,7 +258,7 @@ class TrackTimeRestControllerMvcTest {
         Map<String, Object> resultBody = Map.of("summary", this.statisticsToSummaryMapper.apply(statistics));
         String jsonContent = this.objectMapper.writeValueAsString(resultBody);
 
-        this.mockMvc.perform(get("/api/tracktimestats/all").contentType(MediaType.APPLICATION_JSON)
+        this.mockMvc.perform(get("/api/v1/tracktime/stats").contentType(MediaType.APPLICATION_JSON)
                         .queryParam("view", "summary")
                         .queryParam("short", "true"))
                 .andDo(print())
@@ -272,9 +272,9 @@ class TrackTimeRestControllerMvcTest {
     }
 
     @Test
-    @DisplayName("POST /api/tracktimestats/search :: json body is null")
+    @DisplayName("POST /api/v1/tracktime/stats :: json body is null")
     void handlePostSearch_whenRequestBodyIsNull_returnsErrorMessageSearchPropertiesMustBeSet() throws Exception {
-        this.mockMvc.perform(post("/api/tracktimestats/search")
+        this.mockMvc.perform(post("/api/v1/tracktime/stats")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpectAll(
@@ -292,9 +292,9 @@ class TrackTimeRestControllerMvcTest {
     }
 
     @Test
-    @DisplayName("POST /api/tracktimestats/search :: empty json body")
+    @DisplayName("POST /api/v1/tracktime/stats :: empty json body")
     void handlePostSearch_whenRequestBodyIsEmpty_returnsErrorMessageSearchPropertiesMustBeSet() throws Exception {
-        this.mockMvc.perform(post("/api/tracktimestats/search")
+        this.mockMvc.perform(post("/api/v1/tracktime/stats")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{}"))
                 .andDo(print())

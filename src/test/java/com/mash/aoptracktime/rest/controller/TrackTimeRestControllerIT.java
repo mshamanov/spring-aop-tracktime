@@ -26,9 +26,9 @@ class TrackTimeRestControllerIT {
     MockMvc mockMvc;
 
     @Test
-    @DisplayName("POST /api/tracktimestats/search :: {\"className\": \"JavaService\"}")
+    @DisplayName("POST /api/v1/tracktime/stats :: {\"className\": \"JavaService\"}")
     void handlePostSearch_whenClassNameSelected_returnsStatsForSelectedClassName() throws Exception {
-        this.mockMvc.perform(post("/api/tracktimestats/search")
+        this.mockMvc.perform(post("/api/v1/tracktime/stats")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"className": "JavaService"}
@@ -51,9 +51,9 @@ class TrackTimeRestControllerIT {
     }
 
     @Test
-    @DisplayName("POST /api/tracktimestats/search :: {\"className\": \"Java*\"}")
+    @DisplayName("POST /api/v1/tracktime/stats :: {\"className\": \"Java*\"}")
     void handlePostSearch_whenClassNameMaskSelected_returnsStatsForSelectedClassNameMask() throws Exception {
-        this.mockMvc.perform(post("/api/tracktimestats/search")
+        this.mockMvc.perform(post("/api/v1/tracktime/stats")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"className": "Java*"}
@@ -73,9 +73,9 @@ class TrackTimeRestControllerIT {
     }
 
     @Test
-    @DisplayName("POST /api/tracktimestats/search :: {\"groupName\": \"sync\"}")
+    @DisplayName("POST /api/v1/tracktime/stats :: {\"groupName\": \"sync\"}")
     void handlePostSearch_whenGroupNameSelected_returnsStatsForSelectedGroupName() throws Exception {
-        this.mockMvc.perform(post("/api/tracktimestats/search")
+        this.mockMvc.perform(post("/api/v1/tracktime/stats")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"groupName": "sync"}
@@ -98,9 +98,9 @@ class TrackTimeRestControllerIT {
     }
 
     @Test
-    @DisplayName("POST /api/tracktimestats/search :: {\"methodName\": \"addClass\"}")
+    @DisplayName("POST /api/v1/tracktime/stats :: {\"methodName\": \"addClass\"}")
     void handlePostSearch_whenMethodNameSelected_returnsStatsForSelectedMethodName() throws Exception {
-        this.mockMvc.perform(post("/api/tracktimestats/search")
+        this.mockMvc.perform(post("/api/v1/tracktime/stats")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"methodName": "addClass"}
@@ -124,9 +124,9 @@ class TrackTimeRestControllerIT {
     }
 
     @Test
-    @DisplayName("POST /api/tracktimestats/search :: {\"methodName\": \"add*\"}")
+    @DisplayName("POST /api/v1/tracktime/stats :: {\"methodName\": \"add*\"}")
     void handlePostSearch_whenMethodNameMaskSelected_returnsStatsForSelectedMethodNameMask() throws Exception {
-        this.mockMvc.perform(post("/api/tracktimestats/search")
+        this.mockMvc.perform(post("/api/v1/tracktime/stats")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"methodName": "add*"}
@@ -146,9 +146,9 @@ class TrackTimeRestControllerIT {
     }
 
     @Test
-    @DisplayName("POST /api/tracktimestats/search :: {\"packageName\": \"com.computers.lang.python.repo\"}")
+    @DisplayName("POST /api/v1/tracktime/stats :: {\"packageName\": \"com.computers.lang.python.repo\"}")
     void handlePostSearch_whenPackageNameSelected_returnsStatsForSelectedPackageName() throws Exception {
-        this.mockMvc.perform(post("/api/tracktimestats/search")
+        this.mockMvc.perform(post("/api/v1/tracktime/stats")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"packageName": "com.computers.lang.python.repo"}
@@ -175,9 +175,9 @@ class TrackTimeRestControllerIT {
     }
 
     @Test
-    @DisplayName("POST /api/tracktimestats/search :: {\"packageName\": \"com.computers.lang.*.repo\"}")
+    @DisplayName("POST /api/v1/tracktime/stats :: {\"packageName\": \"com.computers.lang.*.repo\"}")
     void handlePostSearch_whenPackageNameMaskSelected_returnsStatsForSelectedPackageNameMask() throws Exception {
-        this.mockMvc.perform(post("/api/tracktimestats/search")
+        this.mockMvc.perform(post("/api/v1/tracktime/stats")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"packageName": "com.computers.lang.*.repo"}
@@ -197,9 +197,9 @@ class TrackTimeRestControllerIT {
     }
 
     @Test
-    @DisplayName("POST /api/tracktimestats/search :: {\"parameters\": \"Method\"}")
+    @DisplayName("POST /api/v1/tracktime/stats :: {\"parameters\": \"Method\"}")
     void handlePostSearch_whenParametersSelected_returnsStatsForSelectedParameters() throws Exception {
-        this.mockMvc.perform(post("/api/tracktimestats/search")
+        this.mockMvc.perform(post("/api/v1/tracktime/stats")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"parameters": "Method"}
@@ -224,9 +224,9 @@ class TrackTimeRestControllerIT {
     }
 
     @Test
-    @DisplayName("POST /api/tracktimestats/search :: {\"returnType\": \"boolean\"}")
+    @DisplayName("POST /api/v1/tracktime/stats :: {\"returnType\": \"boolean\"}")
     void handlePostSearch_whenReturnTypeSelected_returnsStatsForSelectedReturnType() throws Exception {
-        this.mockMvc.perform(post("/api/tracktimestats/search")
+        this.mockMvc.perform(post("/api/v1/tracktime/stats")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"returnType": "boolean"}
@@ -251,9 +251,9 @@ class TrackTimeRestControllerIT {
     }
 
     @Test
-    @DisplayName("POST /api/tracktimestats/search :: {\"status\": \"exception\"}")
+    @DisplayName("POST /api/v1/tracktime/stats :: {\"status\": \"exception\"}")
     void handlePostSearch_whenMethodStatusSelected_returnsStatsForSelectedMethodStatus() throws Exception {
-        this.mockMvc.perform(post("/api/tracktimestats/search")
+        this.mockMvc.perform(post("/api/v1/tracktime/stats")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"status": "exception"}
@@ -278,9 +278,9 @@ class TrackTimeRestControllerIT {
     }
 
     @Test
-    @DisplayName("POST /api/tracktimestats/search :: {\"status\": \"error\"}")
+    @DisplayName("POST /api/v1/tracktime/stats :: {\"status\": \"error\"}")
     void handlePostSearch_whenMethodStatusInvalid_returnsErrorMessageStatusInvalid() throws Exception {
-        this.mockMvc.perform(post("/api/tracktimestats/search")
+        this.mockMvc.perform(post("/api/v1/tracktime/stats")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"status": "error"}
@@ -299,9 +299,9 @@ class TrackTimeRestControllerIT {
     }
 
     @Test
-    @DisplayName("POST /api/tracktimestats/search :: {\"createdAt\": \"11-05-2024\"}")
+    @DisplayName("POST /api/v1/tracktime/stats :: {\"createdAt\": \"11-05-2024\"}")
     void handlePostSearch_whenCreatedAtSelected_returnsStatsForSelectedCreatedAt() throws Exception {
-        this.mockMvc.perform(post("/api/tracktimestats/search")
+        this.mockMvc.perform(post("/api/v1/tracktime/stats")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"createdAt": "11-05-2024"}
@@ -326,9 +326,9 @@ class TrackTimeRestControllerIT {
     }
 
     @Test
-    @DisplayName("POST /api/tracktimestats/search :: {\"createdAt\": \"15-05-202\"}")
+    @DisplayName("POST /api/v1/tracktime/stats :: {\"createdAt\": \"15-05-202\"}")
     void handlePostSearch_whenCreatedAtInvalid_returnsErrorMessageCreatedAtFormatInvalid() throws Exception {
-        this.mockMvc.perform(post("/api/tracktimestats/search")
+        this.mockMvc.perform(post("/api/v1/tracktime/stats")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"createdAt": "15-05-202"}
@@ -346,9 +346,9 @@ class TrackTimeRestControllerIT {
     }
 
     @Test
-    @DisplayName("POST /api/tracktimestats/search :: empty {}")
+    @DisplayName("POST /api/v1/tracktime/stats :: empty {}")
     void handlePostSearch_whenSearchParametersNotSpecified_returnsErrorMessageParametersMustBeSpecified() throws Exception {
-        this.mockMvc.perform(post("/api/tracktimestats/search")
+        this.mockMvc.perform(post("/api/v1/tracktime/stats")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{}"))
                 .andDo(print())
@@ -365,9 +365,9 @@ class TrackTimeRestControllerIT {
     }
 
     @Test
-    @DisplayName("POST /api/tracktimestats/search :: {\"parameters\": \"\"}")
+    @DisplayName("POST /api/v1/tracktime/stats :: {\"parameters\": \"\"}")
     void handlePostSearch_whenParameterIsEmptyString_returnsStatsWithSelectedParameterAsEmptyString() throws Exception {
-        this.mockMvc.perform(post("/api/tracktimestats/search")
+        this.mockMvc.perform(post("/api/v1/tracktime/stats")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"parameters": ""}
@@ -392,9 +392,9 @@ class TrackTimeRestControllerIT {
     }
 
     @Test
-    @DisplayName("POST /api/tracktimestats/search :: {\"startDate\": \"11-05-2024\", \"endDate\": \"14-05-2024\"}")
+    @DisplayName("POST /api/v1/tracktime/stats :: {\"startDate\": \"11-05-2024\", \"endDate\": \"14-05-2024\"}")
     void handlePostSearch_whenStartAndEndDatesSelected_returnsStatsForBetweenDates() throws Exception {
-        this.mockMvc.perform(post("/api/tracktimestats/search")
+        this.mockMvc.perform(post("/api/v1/tracktime/stats")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"startDate": "11-05-2024",
@@ -415,9 +415,9 @@ class TrackTimeRestControllerIT {
     }
 
     @Test
-    @DisplayName("POST /api/tracktimestats/search :: {\"startDate\": \"11-05-2024\"}")
+    @DisplayName("POST /api/v1/tracktime/stats :: {\"startDate\": \"11-05-2024\"}")
     void handlePostSearch_whenStartDateSelected_returnsStatsAfterSelectedDateIncluded() throws Exception {
-        this.mockMvc.perform(post("/api/tracktimestats/search")
+        this.mockMvc.perform(post("/api/v1/tracktime/stats")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"startDate": "11-05-2024"}
@@ -437,9 +437,9 @@ class TrackTimeRestControllerIT {
     }
 
     @Test
-    @DisplayName("POST /api/tracktimestats/search :: {\"endDate\": \"14-05-2024\"}")
+    @DisplayName("POST /api/v1/tracktime/stats :: {\"endDate\": \"14-05-2024\"}")
     void handlePostSearch_whenEndDateSelected_returnsStatsBeforeSelectedDateIncluded() throws Exception {
-        this.mockMvc.perform(post("/api/tracktimestats/search")
+        this.mockMvc.perform(post("/api/v1/tracktime/stats")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"endDate": "14-05-2024"}
