@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @RestController
-@RequestMapping(path = "/api/tracktimestats")
+@RequestMapping(path = "/api/v1/tracktime")
 @RequiredArgsConstructor
 public class TrackTimeRestController {
     public static final class ViewTypes {
@@ -33,14 +33,14 @@ public class TrackTimeRestController {
     private final TrackTimeEntityToDtoMapper toDtoMapper;
     private final LongStatisticsToSummaryMapper statisticsToSummaryMapper;
 
-    @GetMapping({"", "/", "/all"})
+    @GetMapping("/stats")
     public ResponseEntity<?> getTrackTimeStats(@RequestParam(name = "view", defaultValue = "all") String viewType,
                                                @RequestParam(name = "short", defaultValue = "false") boolean shortInfo) {
         List<TrackTimeStat> timeStats = this.trackTimeStatsService.findAll();
         return this.prepareResponse(timeStats, viewType, shortInfo);
     }
 
-    @PostMapping("/search")
+    @PostMapping("/stats")
     public ResponseEntity<?> getTrackTimeStats(@RequestBody(required = false) TrackTimeDto requestDto,
                                                @RequestParam(name = "view", defaultValue = "all") String viewType,
                                                @RequestParam(name = "short", defaultValue = "false") boolean shortInfo) {
