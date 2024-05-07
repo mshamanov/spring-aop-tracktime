@@ -51,18 +51,18 @@ public class TrackTimeDto {
     private TrackTimeMethodStatus status;
 
     @JsonProperty(value = "createdAt")
-    @JsonDeserialize(using = CustomLocalDateTimeDeserializer.class)
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    @JsonDeserialize(using = CustomLocalDateTimeDeserializer.class)
     private LocalDateTime createdAt;
 
     @JsonProperty(value = "startDate", access = JsonProperty.Access.WRITE_ONLY)
-    @JsonDeserialize(using = CustomLocalDateDeserializer.class)
     @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonDeserialize(using = CustomLocalDateDeserializer.class)
     private LocalDate startDate;
 
     @JsonProperty(value = "endDate", access = JsonProperty.Access.WRITE_ONLY)
-    @JsonDeserialize(using = CustomLocalDateDeserializer.class)
     @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonDeserialize(using = CustomLocalDateDeserializer.class)
     private LocalDate endDate;
 
     public static boolean isAllNull(TrackTimeDto trackTimeDto) {
