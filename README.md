@@ -23,22 +23,28 @@
 В рамках проекта используется:<br>
 [![Java21](https://img.shields.io/badge/JAVA-21-blue.svg)](https://adoptium.net/download/)
 [![Spring Boot v3](https://img.shields.io/badge/SpringBoot-6DB33F?style=flat-square&logo=Spring&logoColor=white)](https://spring.io/projects/spring-boot)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=flat-square&logo=postgresql&logoColor=white)
-![Maven](https://img.shields.io/badge/Apache%20Maven-C71A36.svg?style=flat-square&logo=Apache-Maven&logoColor=white)
-![Hibernate](https://img.shields.io/badge/Hibernate-59666C.svg?style=flat-square&logo=Hibernate&logoColor=white)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=flat-square&logo=postgresql&logoColor=white)](https://www.postgresql.org)
+[![Hibernate](https://img.shields.io/badge/Hibernate-59666C.svg?style=flat-square&logo=Hibernate&logoColor=white)](https://hibernate.org)
+[![Maven](https://img.shields.io/badge/Apache%20Maven-C71A36.svg?style=flat-square&logo=Apache-Maven&logoColor=white)](https://maven.apache.org)
+
+### JDK
+
+Проект написан с использованием JDK (Java) версии 21, который можно скачать,
+например, по этой ссылке: https://adoptium.net/download
 
 ### Среда разработки
 
 Можно
 использовать [JetBrains IntelliJ IDEA](https://www.jetbrains.com/idea/download/)
-или [VS Code](https://code.visualstudio.com/), либо любую другую совместимую с
-вышеуказанными технологиями среду.
+или [VS Code](https://code.visualstudio.com), либо любую другую совместимую с
+вышеуказанными технологиями среду разработки.
 
 ### База данных
 
 В качестве БД в проекте используется PostgreSQL.<br>
-Скачать БД можно с [официального сайта](https://www.postgresql.org/) или
-воспользоваться [Docker](https://www.docker.com/) для развёртывания.
+Скачать БД PostgreSQL можно с [официального сайта](https://www.postgresql.org)
+или
+воспользоваться [Docker](https://www.docker.com) для развёртывания.
 
 ## Основная структура проекта
 
@@ -63,17 +69,16 @@
 
 ## Запуск приложения
 
-Для запуска приложения, необходимо скачать его:
+Для запуска приложения, необходимо сначала скачать его:
 
 ```
 git clone git@github.com:mshamanov/spring_aop_tracktime.git
 ```
 
-Затем необходимо настроить БД.
-Для этого нужно внести изменения в файл:
-***src/main/resources/application.yaml***.
+Затем необходимо настроить БД под своё окружение.<br>
+Для этого нужно внести изменения в файл: `src/main/resources/application.yaml`.
 
-Укажите адрес БД, а также имя и пароль пользователя:
+Укажите URL адрес БД, а также имя и пароль пользователя:
 
 ```
 datasource:
@@ -82,8 +87,9 @@ username: {ПОЛЬЗОВАТЕЛЬ}
 password: {ПАРОЛЬ}
 ```
 
-Название таблицы по умолчанию: tracktimestats<br>
-Структура БД:
+Название таблицы по умолчанию: `tracktimestats`.<br>
+
+#### Структура БД:
 
 ```postgresql
 create table tracktimestats
@@ -103,7 +109,7 @@ create table tracktimestats
 
 Создавать структуру, как правило, нет необходимости, т.к. при первом запуске
 приложения структура будет создана благодаря
-работе [Hibernate](https://hibernate.org/).
+работе [Hibernate](https://hibernate.org).
 
 В том случае, если запуск осуществляется непосредственно из среды
 разработки, то Вы можете просто запустить метод `main`
@@ -127,30 +133,35 @@ mvn spring-boot:run
 При успешном запуске приложения будет запущен класс генерирующий произвольные
 данные о сотрудниках, сохраняя эти данные в БД [**100 записей**].
 Методы, генерирующие данные о сотрдуниках, а также методы сохранения данных в
-БД, помечены аннотациями `@TrackTime` и `@TrackAsyncTime` в зависимости от того
+БД, обозначены аннотациями `@TrackTime` и `@TrackAsyncTime` в зависимости от
+того
 является ли вызов метода синхронным или асинхронным. При этом методы сохранения
 в БД данных о сотрудниках имитируют небольшую задержку в пределах 300мс для
-того,
-чтобы создать разное время выполнения одних и тех же методов.
+того, чтобы создать разное время выполнения одних и тех же методов.
 Некоторые методы могут получить статус `EXCEPTION`, это не означает неправильную
-работу приложения, это сделано для разнообразия примеров. Вся метрика вызова
-методов сохраняется в БД, в таблице `tracktimestats`.
+работу приложения, это сделано для разнообразия примеров. Вся метрика вызовов
+методов сохраняется в БД, в таблицу `tracktimestats`.
 
-Таким образом, используя аннотации `@TrackTime` и `@TrackAsyncTime` мы можем оценить
-время работы тех или иных методов в рамках приложения Spring Boot, используя
-возможности AOP. Для дальнейшей оценки этих данных мы можем сделать выборку через
-обращение к REST-сервису и получения необходимых данных по различным критериям
-выборки.
+Таким образом, используя аннотации `@TrackTime` и `@TrackAsyncTime` мы можем
+оценивать время работы тех или иных методов в рамках приложения Spring Boot,
+используя
+возможности AOP. Для дальнейшей оценки и изучения этих данных мы можем сделать
+выборку необходимых данных по различным критериям поиска с помощью обращения к
+запущенному REST-сервису.
 
 ### Взаимодействие с REST-сервисом
 
 Для того, чтобы получить выборку сформированных данных, Вы можете
-воспользоваться такими инструментами, как [Postman](https://www.postman.com/) или воспользовательской
-пользовательской средой Swagger-UI для работы с REST-сервисом:
+воспользоваться таким инструментом как [Postman](https://www.postman.com) или
+запустить во время работы приложения в браузере пользовательскую среду
+Swagger-UI для взаимодействия с REST-сервисом:
 
 [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
-Там же Вы можете найти возможные запросы и ответы от сервера.
+Там же Вы найдёте информацию о доступных запросах и ответах от сервера.
+Другим способом получить такую информацию является файл спецификации OpenAPI,
+который находится в `src/main/resources/static/open-api.yaml`,
+в этом документе есть вся необходимая информация.
 
 ## Лицензия
 
