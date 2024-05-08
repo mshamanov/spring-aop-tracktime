@@ -15,6 +15,8 @@ import java.util.stream.Stream;
 
 /**
  * Generator of random employees {@link Employee}.
+ *
+ * @author Mikhail Shamanov
  */
 @Component
 public class RandomEmployeesGenerator implements RandomEntityGenerator<Employee> {
