@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: 'OpenApi specification'
+  title: 'TrackTime API'
   description: 'OpenApi documentation'
   contact:
     name: 'Mikhail Shamanov'
@@ -49,53 +49,9 @@ paths:
             default: false
       responses:
         '200':
-          description: 'Response object'
-          content:
-            application/json:
-              schema:
-                anyOf:
-                  - description: 'normal'
-                    type: object
-                    properties:
-                      result:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/Response'
-                      summary:
-                        type: object
-                        properties:
-                          count:
-                            type: integer
-                          min:
-                            type: integer
-                          max:
-                            type: integer
-                          average:
-                            type: integer
-                  - description: 'short'
-                    type: object
-                    properties:
-                      result:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/Response_Short'
-                      summary:
-                        type: object
-                        properties:
-                          count:
-                            type: integer
-                          min:
-                            type: integer
-                          max:
-                            type: integer
-                          average:
-                            type: integer
+          $ref: '#/components/responses/OkResponse'
         '400':
-          description: 'Error object'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/ErrorResponse'
 
     post:
       tags:
@@ -140,16 +96,16 @@ paths:
             examples:
               Common:
                 value:
-                  packageName: 'com.computers.lang.python.repo'
-                  methodName: 'addFunction'
+                  packageName: 'com.mash.aoptracktime.service'
+                  methodName: 'saveAsync'
               Masked:
                 value:
-                  packageName: 'com.computers.lang.*.repo'
-                  methodName: 'add*'
+                  packageName: 'com.mash.*.*'
+                  methodName: '*'
               Combined:
                 value:
-                  packageName: 'com.computers.lang.*.repo'
-                  methodName: 'addFunction'
+                  packageName: 'com.mash.aoptracktime.service'
+                  methodName: 'save*'
               By date:
                 description: 'Date format: dd-MM-yyyy'
                 value:
@@ -161,53 +117,9 @@ paths:
                   endDate: 05-01-2024
       responses:
         '200':
-          description: 'Response object'
-          content:
-            application/json:
-              schema:
-                anyOf:
-                  - description: 'normal'
-                    type: object
-                    properties:
-                      result:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/Response'
-                      summary:
-                        type: object
-                        properties:
-                          count:
-                            type: integer
-                          min:
-                            type: integer
-                          max:
-                            type: integer
-                          average:
-                            type: integer
-                  - description: 'short'
-                    type: object
-                    properties:
-                      result:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/Response_Short'
-                      summary:
-                        type: object
-                        properties:
-                          count:
-                            type: integer
-                          min:
-                            type: integer
-                          max:
-                            type: integer
-                          average:
-                            type: integer
+          $ref: '#/components/responses/OkResponse'
         '400':
-          description: 'Error object'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/ErrorResponse'
 components:
   schemas:
     Request:
@@ -291,3 +203,52 @@ components:
           type: string
         description:
           type: string
+  responses:
+    OkResponse:
+      description: 'Response object'
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - description: "full format response"
+                type: object
+                properties:
+                  result:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Response'
+                  summary:
+                    type: object
+                    properties:
+                      count:
+                        type: integer
+                      min:
+                        type: integer
+                      max:
+                        type: integer
+                      average:
+                        type: integer
+              - description: 'short format response'
+                type: object
+                properties:
+                  result:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Response_Short'
+                  summary:
+                    type: object
+                    properties:
+                      count:
+                        type: integer
+                      min:
+                        type: integer
+                      max:
+                        type: integer
+                      average:
+                        type: integer
+    ErrorResponse:
+      description: 'Error object'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
