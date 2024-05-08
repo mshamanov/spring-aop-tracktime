@@ -6,6 +6,12 @@ import org.springframework.stereotype.Component;
 import java.util.LongSummaryStatistics;
 import java.util.function.Function;
 
+/**
+ * Mapper from LongSummaryStatistics {@link LongSummaryStatistics} to {@link TrackTimeSummary}.
+ *
+ * @author Mikhail Shamanov
+ * @see TrackTimeSummary
+ */
 @Component
 public class LongStatisticsToSummaryMapper implements Function<LongSummaryStatistics, TrackTimeSummary> {
     @Override

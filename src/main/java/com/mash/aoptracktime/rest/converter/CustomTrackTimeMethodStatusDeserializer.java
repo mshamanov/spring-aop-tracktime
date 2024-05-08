@@ -9,6 +9,11 @@ import com.mash.aoptracktime.entity.TrackTimeMethodStatus;
 import java.io.IOException;
 import java.util.Arrays;
 
+/**
+ * Custom deserializer from json data to an enum TrackTimeMethodStatus {@link TrackTimeMethodStatus}.
+ *
+ * @author Mikhail Shamanov
+ */
 public class CustomTrackTimeMethodStatusDeserializer extends JsonDeserializer<TrackTimeMethodStatus> {
     public TrackTimeMethodStatus deserialize(JsonParser p, DeserializationContext context) throws IOException {
         String valueAsString = p.getValueAsString();

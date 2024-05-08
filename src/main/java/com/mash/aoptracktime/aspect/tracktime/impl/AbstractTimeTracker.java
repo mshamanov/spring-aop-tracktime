@@ -1,10 +1,13 @@
 package com.mash.aoptracktime.aspect.tracktime.impl;
 
 import com.mash.aoptracktime.aspect.AspectProceedingBinder;
+import com.mash.aoptracktime.aspect.tracktime.annotation.TrackAsyncTime;
+import com.mash.aoptracktime.aspect.tracktime.annotation.TrackTime;
 import com.mash.aoptracktime.aspect.tracktime.annotation.TrackTimeAnnotationData;
 import com.mash.aoptracktime.entity.TrackTimeMethodStatus;
 import com.mash.aoptracktime.entity.TrackTimeStat;
 import com.mash.aoptracktime.service.TrackTimeStatsService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -14,15 +17,20 @@ import org.springframework.util.StopWatch;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+/**
+ * Abstract class to represent time tracker binder {@link AspectProceedingBinder},
+ * used in the context of Aspect processing to record execution time measurements of method calls.
+ *
+ * @author Mikhail Shamanov
+ * @see TrackTime
+ * @see TrackAsyncTime
+ */
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public abstract class AbstractTimeTracker implements AspectProceedingBinder {
 
     private final TrackTimeStatsService trackTimeStatsService;
-
-    public AbstractTimeTracker(TrackTimeStatsService trackTimeStatsService) {
-        this.trackTimeStatsService = trackTimeStatsService;
-    }
 
     public Object bind(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         StopWatch stopWatch = new StopWatch();
@@ -42,9 +50,27 @@ public abstract class AbstractTimeTracker implements AspectProceedingBinder {
         return result;
     }
 
+    /**
+     * Runs binding process after having result of the method call, as well as passes the time measuring data
+     * and throwable to indicate whether the method failed or not.
+     *
+     * @param result              result of the method call
+     * @param proceedingJoinPoint join point in process
+     * @param stopWatch           time measuring data of the method call
+     * @param throwable           throwable whether the method call threw exception
+     * @return either unmodified result of the method call or modified
+     */
     protected abstract Object bind(Object result, ProceedingJoinPoint proceedingJoinPoint,
-                                   StopWatch stopWatch, Throwable t);
+                                   StopWatch stopWatch, Throwable throwable);
 
+    /**
+     * Performs building and recording time measuring data of the method being processed.
+     *
+     * @param proceedingJoinPoint join point in process
+     * @param stopWatch           time measuring data of the method call
+     * @param annotationData      data with additional information related to the method
+     * @param throwable           throwable whether the method call threw exception
+     */
     protected void recordStat(ProceedingJoinPoint proceedingJoinPoint, StopWatch stopWatch,
                               TrackTimeAnnotationData annotationData, Throwable throwable) {
         if (!stopWatch.isRunning()) {
@@ -69,8 +95,16 @@ public abstract class AbstractTimeTracker implements AspectProceedingBinder {
         this.trackTimeStatsService.saveAsync(stats);
     }
 
+    /**
+     * Builds statistics entity {@link TrackTimeStat}
+     *
+     * @param proceedingJoinPoint join point in process
+     * @param stopWatch           time measuring data of the method call
+     * @param annotationData      data with additional information related to the method
+     * @param throwable           throwable whether the method call threw exception
+     */
     protected TrackTimeStat buildStat(ProceedingJoinPoint proceedingJoinPoint, StopWatch stopWatch,
-                                      TrackTimeAnnotationData annotationData, Throwable t) {
+                                      TrackTimeAnnotationData annotationData, Throwable throwable) {
         MethodSignature methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();
 
         String groupName = annotationData.groupName();
@@ -92,7 +126,7 @@ public abstract class AbstractTimeTracker implements AspectProceedingBinder {
                 .methodName(methodName)
                 .parameters(parameters)
                 .executionTime(executionTime)
-                .status(t == null ? TrackTimeMethodStatus.COMPLETED : TrackTimeMethodStatus.EXCEPTION)
+                .status(throwable == null ? TrackTimeMethodStatus.COMPLETED : TrackTimeMethodStatus.EXCEPTION)
                 .build();
     }
 }

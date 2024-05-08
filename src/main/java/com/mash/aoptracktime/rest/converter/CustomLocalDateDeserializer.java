@@ -10,6 +10,11 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Custom deserializer from json data to an instance of LocalDate {@link LocalDate} to use a specified pattern.
+ *
+ * @author Mikhail Shamanov
+ */
 public class CustomLocalDateDeserializer extends JsonDeserializer<LocalDate> {
     private final String pattern = "dd-MM-yyyy";
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(this.pattern);
@@ -21,7 +26,7 @@ public class CustomLocalDateDeserializer extends JsonDeserializer<LocalDate> {
             return LocalDate.parse(valueAsString, this.formatter);
         } catch (DateTimeException e) {
             throw new JsonParseException(p, "Could not parse date: " + valueAsString +
-                                         ", valid format: " + this.pattern, e);
+                                            ", valid format: " + this.pattern, e);
         }
     }
 }

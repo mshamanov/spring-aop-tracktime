@@ -9,8 +9,13 @@ import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDateTime;
 
-@ControllerAdvice
+/**
+ * Global controller advice to handle rest controller exceptions.
+ *
+ * @author Mikhail Shamanov
+ */
 @Slf4j
+@ControllerAdvice
 public class RestControllerExceptionHandler {
 
     @ExceptionHandler

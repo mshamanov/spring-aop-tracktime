@@ -7,6 +7,14 @@ import org.aspectj.lang.reflect.MethodSignature;
 
 import java.lang.reflect.Method;
 
+/**
+ * Class to retrieve data from methods annotated with {@link TrackTime} annotation,
+ * used in the context of Aspect processing.
+ *
+ * @author Mikhail Shamanov
+ * @see TrackTime
+ * @see SyncTimeTracker
+ */
 public class TrackSyncTimeAnnotationData implements TrackTimeAnnotationData {
     private final TrackTime trackTime;
 

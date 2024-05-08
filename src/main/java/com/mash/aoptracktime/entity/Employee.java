@@ -6,6 +6,11 @@ import lombok.Data;
 
 import java.time.LocalDate;
 
+/**
+ * Class to represent an employee.
+ *
+ * @author Mikhail Shamanov
+ */
 @Data
 @Builder
 @AllArgsConstructor

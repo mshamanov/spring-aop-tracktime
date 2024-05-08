@@ -6,6 +6,13 @@ import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
 
+/**
+ * Mapper from TrackTimeStat {@link TrackTimeStat} to {@link TrackTimeDto}.
+ *
+ * @author Mikhail Shamanov
+ * @see TrackTimeStat
+ * @see TrackTimeDto
+ */
 @Component
 public class TrackTimeEntityToDtoMapper {
     public Function<TrackTimeStat, TrackTimeDto> toShort() {

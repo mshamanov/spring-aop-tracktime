@@ -17,6 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+/**
+ * Mapper from TrackTimeDto {@link TrackTimeDto} to {@link Specification} to be used to build a custom database query.
+ *
+ * @author Mikhail Shamanov
+ * @see TrackTimeDto
+ * @see Specification
+ */
 @Component
 @RequiredArgsConstructor
 public class TrackTimeDtoToSpecificationMapper implements Function<TrackTimeDto, Specification<TrackTimeStat>> {
@@ -70,8 +77,8 @@ public class TrackTimeDtoToSpecificationMapper implements Function<TrackTimeDto,
 
     private boolean isCreatedAtField(Field field) {
         return field.getName().equals("createdAt") ||
-                field.getName().equals("created_at") ||
-                field.isAnnotationPresent(CreationTimestamp.class) ||
-                field.isAnnotationPresent(CreatedDate.class);
+               field.getName().equals("created_at") ||
+               field.isAnnotationPresent(CreationTimestamp.class) ||
+               field.isAnnotationPresent(CreatedDate.class);
     }
 }

@@ -9,6 +9,12 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
+/**
+ * Entity class, a relational representation of the data in the database,
+ * used to store method execution time measurements.
+ *
+ * @author Mikhail Shamanov
+ */
 @Entity
 @Data
 @Builder

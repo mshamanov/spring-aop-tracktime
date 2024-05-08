@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Profile;
 import java.util.Optional;
 
 /**
- * Minimal beans configuration to enable Swagger-UI from provided custom yaml file
+ * Minimal beans configuration to enable Swagger-UI from provided «yaml» file.
  *
  * @author Mikhail Shamanov
  */

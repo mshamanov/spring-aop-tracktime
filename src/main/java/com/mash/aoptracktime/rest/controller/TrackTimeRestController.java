@@ -17,14 +17,33 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * Rest controller to retrieve method execution time measurements.
+ *
+ * @author Mikhail Shamanov
+ */
 @RestController
 @RequestMapping(path = "/api/v1/tracktime")
 @RequiredArgsConstructor
-@CrossOrigin("http://localhost:8080")
+@CrossOrigin(origins = "*")
 public class TrackTimeRestController {
+    /**
+     * Types of measurement data representation.
+     */
     public static final class ViewTypes {
+        /**
+         * Data and summary included
+         */
         public static final String ALL = "ALL";
+
+        /**
+         * Only data included
+         */
         public static final String DATA = "DATA";
+
+        /**
+         * Only summary included
+         */
         public static final String SUMMARY = "SUMMARY";
     }
 
@@ -53,6 +72,14 @@ public class TrackTimeRestController {
         return this.prepareResponse(timeStats, viewType, shortFormat);
     }
 
+    /**
+     * Prepares response for the client.
+     *
+     * @param data        measurement data as a collection
+     * @param viewType    type of data representation {@link ViewTypes}
+     * @param shortFormat true if a single measurement data of a method call should be in a short format, otherwise false
+     * @return response
+     */
     private ResponseEntity<Map<String, Object>> prepareResponse(Collection<? extends TrackTimeStat> data,
                                                                 String viewType, boolean shortFormat) {
 

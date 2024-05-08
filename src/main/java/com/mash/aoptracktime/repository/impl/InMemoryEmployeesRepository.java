@@ -11,6 +11,11 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.StreamSupport;
 
+/**
+ * In-memory implementation of a repository {@link EmployeesRepository} used to keep data for employees {@link Employee}.
+ *
+ * @author Mikhail Shamanov
+ */
 @Repository
 @NonNullApi
 public class InMemoryEmployeesRepository implements EmployeesRepository {

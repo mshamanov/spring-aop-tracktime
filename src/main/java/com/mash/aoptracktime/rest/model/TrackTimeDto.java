@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mash.aoptracktime.entity.TrackTimeMethodStatus;
+import com.mash.aoptracktime.rest.controller.TrackTimeRestController;
 import com.mash.aoptracktime.rest.converter.CustomLocalDateDeserializer;
 import com.mash.aoptracktime.rest.converter.CustomLocalDateTimeDeserializer;
 import com.mash.aoptracktime.rest.converter.CustomTrackTimeMethodStatusDeserializer;
@@ -18,6 +19,12 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+/**
+ * Class which is used as a DTO when communicating between client and a server via rest controller.
+ *
+ * @author Mikhail Shamanov
+ * @see TrackTimeRestController
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -65,6 +72,13 @@ public class TrackTimeDto {
     @JsonDeserialize(using = CustomLocalDateDeserializer.class)
     private LocalDate endDate;
 
+    /**
+     * Checks whether the properties of the instance are all null.
+     * Empty values, e.g. strings, are considered valid.
+     *
+     * @param trackTimeDto instance
+     * @return true if all the properties are null, otherwise false.
+     */
     public static boolean isAllNull(TrackTimeDto trackTimeDto) {
         return Stream.of(trackTimeDto.groupName,
                         trackTimeDto.returnType,
