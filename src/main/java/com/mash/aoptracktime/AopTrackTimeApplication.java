@@ -1,6 +1,8 @@
 package com.mash.aoptracktime;
 
+import com.mash.aoptracktime.entity.Employee;
 import com.mash.aoptracktime.generator.RandomEmployeesGenerator;
+import com.mash.aoptracktime.service.EmployeesService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -21,12 +23,18 @@ public class AopTrackTimeApplication {
 
     @Profile("!test")
     @Bean
-    public CommandLineRunner commandLineRunner(RandomEmployeesGenerator employeeRandomGenerator) {
+    public CommandLineRunner commandLineRunner(EmployeesService service, RandomEmployeesGenerator generator) {
         return args -> {
-//            Long employeesNumber = 10000L;
-//            employeeRandomGenerator.generate(employeesNumber);
-//            employeeRandomGenerator.generateAsFuture(employeesNumber);
-//            employeeRandomGenerator.generateAsCompletableFuture(employeesNumber);
+            generator.generateAsFuture(10000L);
+            generator.generateAsCompletableFuture(10000L);
+
+            for (Employee employee : generator.generate(100L)) {
+                if (Math.random() < 0.5) {
+                    service.save(employee);
+                } else {
+                    service.saveAsync(employee);
+                }
+            }
         };
     }
 }
