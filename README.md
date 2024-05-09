@@ -72,7 +72,7 @@
 Для запуска приложения, необходимо сначала скачать его:
 
 ```
-git clone git@github.com:mshamanov/spring_aop_tracktime.git
+git clone https://github.com/mshamanov/spring_aop_tracktime.git
 ```
 
 Затем необходимо настроить БД под своё окружение.<br>
