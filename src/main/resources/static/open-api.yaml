@@ -92,7 +92,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Request'
+              $ref: '#/components/schemas/Search Request'
             examples:
               Common:
                 value:
@@ -122,7 +122,7 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
 components:
   schemas:
-    Request:
+    Search Request:
       description: 'Search request'
       type: object
       properties:
@@ -152,44 +152,76 @@ components:
         endDate:
           type: string
           format: date
-    Response:
-      description: 'Data response'
+    Full Response:
+      description: "Normal data response"
       type: object
       properties:
-        groupName:
-          type: string
-        returnType:
-          type: string
-        packageName:
-          type: string
-        className:
-          type: string
-        methodName:
-          type: string
-        parameters:
-          type: string
-        executionTime:
-          type: integer
-          format: int64
-        status:
-          type: string
-          enum:
-            - completed
-            - exception
-        createdAt:
-          type: string
-          format: date-time
-    Response_Short:
-      description: 'Short data response'
+        result:
+          type: array
+          items:
+            type: object
+            properties:
+              groupName:
+                type: string
+              returnType:
+                type: string
+              packageName:
+                type: string
+              className:
+                type: string
+              methodName:
+                type: string
+              parameters:
+                type: string
+              executionTime:
+                type: integer
+                format: int64
+              status:
+                type: string
+                enum:
+                  - completed
+                  - exception
+              createdAt:
+                type: string
+                format: date-time
+        summary:
+          type: object
+          properties:
+            count:
+              type: integer
+            min:
+              type: integer
+            max:
+              type: integer
+            average:
+              type: integer
+    Short Response:
+      description: "Short data response"
       type: object
       properties:
-        methodName:
-          type: string
-        executionTime:
-          type: integer
-          format: int64
-          readOnly: true
-    Error:
+        result:
+          type: array
+          items:
+            type: object
+            properties:
+              methodName:
+                type: string
+              executionTime:
+                type: integer
+                format: int64
+                readOnly: true
+        summary:
+          type: object
+          properties:
+            count:
+              type: integer
+            min:
+              type: integer
+            max:
+              type: integer
+            average:
+              type: integer
+    Error Response:
       description: 'Error response'
       type: object
       properties:
@@ -210,45 +242,11 @@ components:
         application/json:
           schema:
             oneOf:
-              - description: "full format response"
-                type: object
-                properties:
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Response'
-                  summary:
-                    type: object
-                    properties:
-                      count:
-                        type: integer
-                      min:
-                        type: integer
-                      max:
-                        type: integer
-                      average:
-                        type: integer
-              - description: 'short format response'
-                type: object
-                properties:
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Response_Short'
-                  summary:
-                    type: object
-                    properties:
-                      count:
-                        type: integer
-                      min:
-                        type: integer
-                      max:
-                        type: integer
-                      average:
-                        type: integer
+              - $ref: '#/components/schemas/Full Response'
+              - $ref: '#/components/schemas/Short Response'
     ErrorResponse:
       description: 'Error object'
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: '#/components/schemas/Error Response'
