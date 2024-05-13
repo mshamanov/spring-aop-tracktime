@@ -22,7 +22,7 @@ public @interface TrackAsyncTime {
      *
      * @return group name
      */
-    String groupName() default "sync";
+    String groupName() default "async";
 
     /**
      * Sets whether this method should be a subject of time measuring if it throws exception.
